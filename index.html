@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ViralFlow Architect</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts & Lucide Icons via fontawesome/svg -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Meta tags para emulación Nativa iOS/Android -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0f172a">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; font-display: swap; }
+        .glass { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .thumb-nav-padding { padding-bottom: 90px; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen antialiased selection:bg-indigo-500/30">
+
+    <!-- CONTENEDOR PRINCIPAL MOBILE-FIRST -->
+    <main class="max-w-md mx-auto min-h-screen relative flex flex-col thumb-nav-padding px-4 pt-6">
+        
+        <!-- HEADER APP-LIKE -->
+        <header class="flex items-center justify-between mb-6 glass p-4 rounded-2xl">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                    <span class="font-bold text-white tracking-tighter">VF</span>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-tight text-white">ViralFlow</h1>
+                    <p class="text-xs text-slate-400">Estrategia & Monetización Urbano</p>
+                </div>
+            </div>
+            <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2.5 py-1 rounded-full font-semibold border border-emerald-500/30">Comunidad Activa</span>
+        </header>
+
+        <!-- SECCIÓN 1: PLANIFICADOR DE REELS (PANTALLA ACTIVA POR DEFECTO) -->
+        <section id="sec-planificador" class="space-y-4">
+            <div class="glass p-5 rounded-2xl space-y-4">
+                <h2 class="text-md font-semibold text-white flex items-center gap-2">
+                    ⚡ Nuevo Reel Magnético
+                </h2>
+                
+                <form id="form-reel" class="space-y-3">
+                    <div>
+                        <label class="text-xs text-slate-400 block mb-1">Concepto o Idea del Reel</label>
+                        <input type="text" id="reel-idea" placeholder="Ej: Graffiti en patineta o Proceso Fanzine" class="w-full p-3.5 bg-slate-800/80 border-none rounded-xl focus:ring-2 focus:ring-indigo-500 transition-all text-sm text-white placeholder:text-slate-500" required>
+                    </div>
+                    
+                    <div>
+                        <label class="text-xs text-slate-400 block mb-1">Gancho Inicial (Primeros 2s)</label>
+                        <input type="text" id="reel-hook" placeholder="Ej: ¡Esto pasa cuando mezclas rap y arte!" class="w-full p-3.5 bg-slate-800/80 border-none rounded-xl focus:ring-2 focus:ring-indigo-500 transition-all text-sm text-white placeholder:text-slate-500" required>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="text-xs text-slate-400 block mb-1">Duración Estructurada</label>
+                            <select id="reel-duration" class="w-full p-3.5 bg-slate-800/80 border-none rounded-xl focus:ring-2 focus:ring-indigo-500 transition-all text-sm text-white">
+                                <option value="7-12s">7-12s (Recomendado Loop)</option>
+                                <option value="15-30s">15-30s (Dinámico)</option>
+                                <option value="+30s">30s+ (Educativo)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400 block mb-1">Llamado a la Acción</label>
+                            <select id="reel-cta" class="w-full p-3.5 bg-slate-800/80 border-none rounded-xl focus:ring-2 focus:ring-indigo-500 transition-all text-sm text-white">
+                                <option value="Enviar Estrellas">Pedir Estrellas ⭐️</option>
+                                <option value="Seguir Colectivo">Seguir Página 🚀</option>
+                                <option value="Comentar Tendencia">Provocar Comentario 💬</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-indigo-600 text-white p-3.5 rounded-xl font-semibold hover:bg-indigo-700 transition-all active:scale-95 shadow-lg shadow-indigo-500/20 text-sm mt-2">
+                        Guardar en Estrategia Local
+                    </button>
+                </form>
+            </div>
+
+            <!-- LISTA DE REELS PROGRAMADOS -->
+            <div class="space-y-2">
+                <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 px-1">Tu Parrilla de Contenido</h3>
+                <div id="lista-reels" class="space-y-2">
+                    <!-- Dinámico -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: SIMULADOR DE MONETIZACIÓN (OCULTO POR DEFECTO) -->
+        <section id="sec-monetizacion" class="space-y-4 hidden">
+            <div class="glass p-5 rounded-2xl space-y-4">
+                <h2 class="text-md font-semibold text-white">📊 Simulador de Ingresos Meta</h2>
+                
+                <div class="space-y-3">
+                    <div>
+                        <label class="text-xs text-slate-400 block mb-1">Vistas Estimadas Mensuales (Reels)</label>
+                        <input type="number" id="calc-vistas" value="50000" class="w-full p-3.5 bg-slate-800/80 border-none rounded-xl focus:ring-2 focus:ring-indigo-500 transition-all text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="text-xs text-slate-400 block mb-1">Estrellas Recibidas estimadas</label>
+                        <input type="number" id="calc-estrellas" value="1500" class="w-full p-3.5 bg-slate-800/80 border-none rounded-xl focus:ring-2 focus:ring-indigo-500 transition-all text-sm text-white">
+                    </div>
+                </div>
+
+                <hr class="border-slate-800">
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700/50">
+                        <span class="text-xs text-slate-400 block">Por Estrellas</span>
+                        <span id="res-estrellas" class="text-xl font-bold text-emerald-400">$0.00 USD</span>
+                    </div>
+                    <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700/50">
+                        <span class="text-xs text-slate-400 block">Bono Performance Est.</span>
+                        <span id="res-bono" class="text-xl font-bold text-indigo-400">$0.00 USD</span>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-r from-indigo-600 to-violet-600 p-4 rounded-xl text-center shadow-lg shadow-indigo-500/10">
+                    <span class="text-xs text-white/80 block uppercase tracking-wider font-semibold">Total Mensual Estimado</span>
+                    <span id="res-total" class="text-2xl font-extrabold text-white">$0.00 USD</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- NAVEGACIÓN DE PULGAR (BOTTOM NAV BAR) -->
+        <nav class="fixed bottom-4 left-4 right-4 max-w-md mx-auto h-16 bg-slate-900/90 backdrop-blur-lg border border-slate-800 rounded-2xl flex items-center justify-around px-4 shadow-2xl z-50">
+            <button onclick="switchTab('planificador')" id="btn-tab-planificador" class="flex flex-col items-center gap-1 text-indigo-400 transition-all active:scale-95 py-2 px-4 rounded-xl" aria-label="Planificador">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                <span class="text-[10px] font-medium">Planificador</span>
+            </button>
+            <button onclick="switchTab('monetizacion')" id="btn-tab-monetizacion" class="flex flex-col items-center gap-1 text-slate-400 transition-all active:scale-95 py-2 px-4 rounded-xl" aria-label="Monetización">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span class="text-[10px] font-medium">Monetizar</span>
+            </button>
+        </nav>
+
+    </main>
+
+    <!-- LOGICA SCRIPT JS PRO -->
+    <script>
+        // Inicialización y carga estructurada de LocalStorage
+        let baseReels = JSON.parse(localStorage.getItem('ViralFlow_Data')) || [];
+
+        window.onload = () => {
+            renderReels();
+            calcularMonetizacion();
+            setupCalculadoraListeners();
+        };
+
+        // Guardado persistente
+        function guardarDatos() {
+            localStorage.setItem('ViralFlow_Data', JSON.stringify(baseReels));
+        }
+
+        // Cambio de sección optimizado para UI móvil
+        function switchTab(tabId) {
+            const secPlan = document.getElementById('sec-planificador');
+            const secMon = document.getElementById('sec-monetizacion');
+            const btnPlan = document.getElementById('btn-tab-planificador');
+            const btnMon = document.getElementById('btn-tab-monetizacion');
+
+            if(tabId === 'planificador') {
+                secPlan.classList.remove('hidden');
+                secMon.classList.add('hidden');
+                btnPlan.classList.add('text-indigo-400');
+                btnPlan.classList.remove('text-slate-400');
+                btnMon.classList.remove('text-indigo-400');
+                btnMon.classList.add('text-slate-400');
+            } else {
+                secPlan.classList.add('hidden');
+                secMon.classList.remove('hidden');
+                btnMon.classList.add('text-indigo-400');
+                btnMon.classList.remove('text-slate-400');
+                btnPlan.classList.remove('text-indigo-400');
+                btnPlan.classList.add('text-slate-400');
+            }
+        }
+
+        // Manejo del formulario de planificación
+        document.getElementById('form-reel').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nuevoReel = {
+                id: Date.now(),
+                idea: document.getElementById('reel-idea').value.trim(),
+                hook: document.getElementById('reel-hook').value.trim(),
+                duration: document.getElementById('reel-duration').value,
+                cta: document.getElementById('reel-cta').value
+            };
+
+            baseReels.unshift(nuevoReel);
+            guardarDatos();
+            renderReels();
+            this.reset();
+        });
+
+        // Renderizado seguro contra XSS utilizando textContent
+        function renderReels() {
+            const contenedor = document.getElementById('lista-reels');
+            contenedor.innerHTML = '';
+
+            if(baseReels.length === 0) {
+                contenedor.innerHTML = `
+                    <div class="glass p-6 rounded-2xl text-center text-slate-500 text-sm">
+                        No hay Reels planificados. Empieza agregando uno arriba.
+                    </div>
+                `;
+                return;
+            }
+
+            baseReels.forEach(reel => {
+                const item = document.createElement('div');
+                item.className = 'glass p-4 rounded-xl flex justify-between items-start border-l-4 border-indigo-500';
+                
+                const info = document.createElement('div');
+                info.className = 'space-y-1 pr-2';
+                
+                const titulo = document.createElement('h4');
+                titulo.className = 'text-sm font-bold text-white';
+                titulo.textContent = reel.idea;
+                
+                const gancho = document.createElement('p');
+                gancho.className = 'text-xs text-slate-400';
+                gancho.textContent = `Gancho: "${reel.hook}"`;
+                
+                const tags = document.createElement('div');
+                tags.className = 'flex gap-2 pt-1';
+                tags.innerHTML = `
+                    <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">${reel.duration}</span>
+                    <span class="text-[10px] bg-indigo-950 text-indigo-300 px-2 py-0.5 rounded">${reel.cta}</span>
+                `;
+
+                info.appendChild(titulo);
+                info.appendChild(gancho);
+                info.appendChild(tags);
+
+                const btnBorrar = document.createElement('button');
+                btnBorrar.className = 'text-slate-500 hover:text-rose-400 p-2 transition-colors active:scale-90';
+                btnBorrar.setAttribute('aria-label', 'Eliminar Reel');
+                btnBorrar.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>`;
+                btnBorrar.onclick = () => eliminarReel(reel.id);
+
+                item.appendChild(info);
+                item.appendChild(btnBorrar);
+                contenedor.appendChild(item);
+            });
+        }
+
+        function eliminarReel(id) {
+            baseReels = baseReels.filter(r => r.id !== id);
+            guardarDatos();
+            renderReels();
+        }
+
+        // Lógica de cálculo automatizado de monetización
+        function setupCalculadoraListeners() {
+            document.getElementById('calc-vistas').addEventListener('input', calcularMonetizacion);
+            document.getElementById('calc-estrellas').addEventListener('input', calcularMonetizacion);
+        }
+
+        function calcularMonetizacion() {
+            const vistas = parseFloat(document.getElementById('calc-vistas').value) || 0;
+            const estrellas = parseFloat(document.getElementById('calc-estrellas').value) || 0;
+
+            // Constantes base de monetización: 1 estrella = 0.01 USD. Bono estimado por rendimiento de vistas.
+            const gananciaEstrellas = estrellas * 0.01;
+            const gananciaBono = (vistas / 1000) * 0.05; // Estimado conservador de CPM para bonos
+
+            const total = networkFirstCalc(gananciaEstrellas, gananciaBono);
+
+            document.getElementById('res-estrellas').textContent = `$${gananciaEstrellas.toFixed(2)} USD`;
+            document.getElementById('res-bono').textContent = `$${gananciaBono.toFixed(2)} USD`;
+            document.getElementById('res-total').textContent = `$${total.toFixed(2)} USD`;
+        }
+
+        function networkFirstCalc(a, b) {
+            return a + b;
+        }
+    </script>
+
+    <!-- INLINE PWA CORE CODE: Service Worker & Manifest DataURI Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            // Service worker inline autogenerado vía Blob para garantizar el despliegue de un solo archivo
+            const swCode = `
+                const CACHE_NAME = 'viralflow-v1';
+                const ASSETS = ['./', './index.html'];
+
+                self.addEventListener('install', e => {
+                    e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(ASSETS)));
+                });
+
+                self.addEventListener('fetch', e => {
+                    e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+                });
+            `;
+            const blob = new Blob([swCode], { type: 'application/javascript' });
+            const swUrl = URL.createObjectURL(blob);
+            navigator.serviceWorker.register(swUrl).catch(err => console.log('SW Setup status:', err));
+        }
+    </script>
+</body>
+</html>
