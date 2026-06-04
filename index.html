@@ -3,14 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RapSkills Pro - Freestyle Trainer</title>
-    <!-- Meta Tags para PWA e iOS -->
+    <title>RapSkills Pro - Sonora Cypher Lab</title>
     <meta name="theme-color" content="#0f172a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="RapSkills">
     
-    <!-- CDNs Requeridos (Tailwind CSS & Lucide Icons) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     
@@ -20,7 +17,6 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
-        /* Deshabilitar scroll elástico en iOS para emular app nativa */
         html, body {
             overflow: hidden;
             position: fixed;
@@ -31,198 +27,219 @@
 </head>
 <body class="bg-slate-950 text-slate-100 flex flex-col justify-between min-h-screen">
 
-    <!-- Header con Efecto Glassmorphism -->
-    <header class="w-full max-w-md mx-auto bg-slate-900/80 backdrop-blur-md border-b border-slate-800/60 px-6 py-4 flex items-center justify-between z-50 fixed top-0 left-0 right-0">
+    <header class="w-full max-w-md mx-auto bg-slate-900/90 backdrop-blur-md border-b border-slate-800/60 px-6 py-4 flex items-center justify-between z-50 fixed top-0 left-0 right-0">
         <div class="flex items-center gap-2">
-            <div class="p-2 bg-indigo-600 rounded-xl shadow-lg shadow-indigo-500/30">
+            <div class="p-2 bg-amber-600 rounded-xl shadow-lg shadow-amber-500/30">
                 <i data-lucide="mic" class="w-5 h-5 text-white"></i>
             </div>
             <div>
                 <h1 class="text-lg font-extrabold tracking-tight text-white flex items-center gap-1.5">
-                    RAPSKILLS <span class="text-xs px-2 py-0.5 bg-indigo-500/20 text-indigo-400 rounded-full font-semibold border border-indigo-500/30">PRO</span>
+                    RAPSKILLS <span class="text-xs px-2 py-0.5 bg-amber-500/20 text-amber-400 rounded-full font-semibold border border-amber-500/30">SONORA</span>
                 </h1>
-                <p class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Sonora Cypher Lab</p>
+                <p class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Desierto & Estructuras</p>
             </div>
         </div>
-        <button id="btnStats" aria-label="Ver Estadísticas" class="p-3 bg-slate-800/60 rounded-xl border border-slate-700/50 active:scale-95 transition-all duration-200">
-            <i data-lucide="bar-chart-3" class="w-5 h-5 text-indigo-400"></i>
+        <button id="btnStats" class="p-3 bg-slate-800/60 rounded-xl border border-slate-700/50 active:scale-95 transition-all">
+            <i data-lucide="bar-chart-3" class="w-5 h-5 text-amber-400"></i>
         </button>
     </header>
 
-    <!-- Contenedor Principal con Scroll Controlado -->
     <main class="w-full max-w-md mx-auto flex-1 overflow-y-auto pt-24 pb-32 px-4 space-y-5">
         
-        <!-- Pantalla de Configuración Inicial -->
         <section id="setupSection" class="space-y-5">
             <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 space-y-4">
-                <div class="flex items-center gap-2 mb-2">
+                <div class="flex items-center gap-2 mb-1">
                     <i data-lucide="zap" class="w-5 h-5 text-amber-400"></i>
-                    <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300">1. Habilidad / Figura Retórica</h2>
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300">1. Habilidad Lingüística</h2>
                 </div>
-                <div class="grid grid-cols-1 gap-2" id="skillsGrid">
-                    <!-- Inyección dinámica de habilidades -->
-                </div>
+                <div class="grid grid-cols-1 gap-2" id="skillsGrid"></div>
             </div>
 
             <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 space-y-4">
-                <div class="flex items-center gap-2 mb-2">
+                <div class="flex items-center gap-2 mb-1">
                     <i data-lucide="target" class="w-5 h-5 text-emerald-400"></i>
-                    <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300">2. Tipo de Ejercicio</h2>
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300">2. Ejercicio de Práctica</h2>
                 </div>
-                <div class="grid grid-cols-1 gap-2" id="exercisesGrid">
-                    <!-- Inyección dinámica de ejercicios -->
-                </div>
+                <div class="grid grid-cols-1 gap-2" id="exercisesGrid"></div>
             </div>
 
             <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 space-y-4">
-                <div class="flex items-center gap-2 mb-2">
-                    <i data-lucide="music" class="w-5 h-5 text-purple-400"></i>
-                    <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300">3. Selecciona tu Beat</h2>
+                <div class="flex items-center gap-2 mb-1">
+                    <i data-lucide="disc" class="w-5 h-5 text-purple-400"></i>
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300">3. Ritmo Boom Bap Hip-Hop</h2>
                 </div>
-                <div class="space-y-2" id="beatsRadioGroup">
-                    <!-- Inyección dinámica de beats -->
-                </div>
+                <div class="space-y-2" id="beatsRadioGroup"></div>
             </div>
 
-            <button id="btnStartTraining" class="w-full bg-indigo-600 text-white py-4 rounded-xl font-bold uppercase tracking-wider hover:bg-indigo-700 transition-all active:scale-95 shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 text-base">
-                <i data-lucide="play" class="w-5 h-5 fill-current"></i> Iniciar Cypher
+            <button id="btnStartTraining" class="w-full bg-amber-600 text-white py-4 rounded-xl font-bold uppercase tracking-wider hover:bg-amber-700 transition-all active:scale-95 shadow-lg shadow-amber-600/30 flex items-center justify-center gap-2 text-base">
+                <i data-lucide="play" class="w-5 h-5 fill-current"></i> Iniciar Entrenamiento
             </button>
         </section>
 
-        <!-- Pantalla de Entrenamiento Activa -->
-        <section id="trainingSection" class="hidden space-y-5">
-            <!-- Tarjeta del Estímulo Central (Palabras/Conceptos) -->
-            <div class="bg-slate-900 border-2 border-indigo-500/40 rounded-3xl p-8 text-center shadow-2xl shadow-indigo-500/10 relative overflow-hidden min-h-[220px] flex flex-col justify-center items-center">
+        <section id="trainingSection" class="hidden space-y-4">
+            <div class="bg-slate-900 border-2 border-amber-500/40 rounded-3xl p-6 text-center shadow-2xl shadow-amber-500/5 relative overflow-hidden min-h-[200px] flex flex-col justify-center items-center">
                 <div class="absolute top-3 left-4 flex items-center gap-1.5 bg-slate-800/80 px-2.5 py-1 rounded-full border border-slate-700/50">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                     <span id="activeSkillBadge" class="text-[10px] font-bold text-slate-300 uppercase">Metáfora</span>
                 </div>
                 
                 <div class="absolute top-3 right-4">
-                    <span id="timerCountdown" class="text-xs font-mono font-bold bg-indigo-500/20 text-indigo-400 px-2.5 py-1 rounded-full border border-indigo-500/30">10s</span>
+                    <span id="timerCountdown" class="text-xs font-mono font-bold bg-amber-500/20 text-amber-400 px-2.5 py-1 rounded-full border border-amber-500/30">10s</span>
                 </div>
 
-                <!-- Palabra o Concepto Objetivo -->
-                <h3 id="stimulusDisplay" class="text-4xl font-extrabold tracking-tight text-white my-4 break-words max-w-full">
+                <h3 id="stimulusDisplay" class="text-4xl font-extrabold tracking-tight text-amber-400 my-6 break-words max-w-full uppercase">
                     CARGANDO...
                 </h3>
-                
-                <p id="exerciseInstruction" class="text-xs text-slate-400 max-w-xs leading-relaxed">
-                    Usa este concepto para estructurar tu siguiente patrón.
-                </p>
             </div>
 
-            <!-- Controles Auxiliares en Entrenamiento -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-3">
+                <div class="flex items-center gap-2 text-emerald-400 border-b border-slate-800 pb-2">
+                    <i data-lucide="help-circle" class="w-4 h-4"></i>
+                    <h4 class="text-xs font-bold uppercase tracking-wider">Guía del Ejercicio</h4>
+                </div>
+                <div class="space-y-2">
+                    <div>
+                        <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-tight">¿Qué debes hacer?</p>
+                        <p id="exerciseInstruction" class="text-xs text-slate-200 leading-relaxed"></p>
+                    </div>
+                    <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/60">
+                        <p class="text-[10px] font-bold text-amber-500 uppercase tracking-wider mb-1">Ejemplo de Barra Real:</p>
+                        <p id="exerciseExample" class="text-xs italic text-slate-300 font-serif leading-relaxed"></p>
+                    </div>
+                </div>
+            </div>
+
             <div class="grid grid-cols-2 gap-3">
-                <button id="btnSkipStimulus" class="bg-slate-900 border border-slate-800 text-slate-300 py-3.5 rounded-xl font-semibold text-sm active:scale-95 transition-all flex items-center justify-center gap-2">
-                    <i data-lucide="skip-forward" class="w-4 h-4"></i> Saltar Palabra
+                <button id="btnSkipStimulus" class="bg-slate-900 border border-slate-800 text-slate-300 py-3.5 rounded-xl font-semibold text-sm active:scale-95 flex items-center justify-center gap-2">
+                    <i data-lucide="skip-forward" class="w-4 h-4"></i> Siguiente Palabra
                 </button>
-                <button id="btnChangeConfig" class="bg-slate-900 border border-slate-800 text-rose-400 py-3.5 rounded-xl font-semibold text-sm active:scale-95 transition-all flex items-center justify-center gap-2">
-                    <i data-lucide="sliders-horizontal" class="w-4 h-4"></i> Ajustes
+                <button id="btnChangeConfig" class="bg-slate-900 border border-slate-800 text-rose-400 py-3.5 rounded-xl font-semibold text-sm active:scale-95 flex items-center justify-center gap-2">
+                    <i data-lucide="sliders-horizontal" class="w-4 h-4"></i> Terminar Sesión
                 </button>
             </div>
         </section>
 
-        <!-- Sección de Estadísticas Históricas -->
         <section id="statsSection" class="hidden bg-slate-900/60 border border-slate-800 rounded-2xl p-5 space-y-4">
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                 <h3 class="font-bold text-lg text-white flex items-center gap-2">
-                    <i data-lucide="award" class="w-5 h-5 text-amber-400"></i> Historial de Entrenamiento
+                    <i data-lucide="award" class="w-5 h-5 text-amber-400"></i> Bitácora de Barras
                 </h3>
-                <button id="btnClearStats" class="text-xs font-semibold text-rose-400 bg-rose-500/10 px-2.5 py-1 rounded-lg border border-rose-500/20 active:scale-95">
-                    Reset
-                </button>
+                <button id="btnClearStats" class="text-xs font-semibold text-rose-400 bg-rose-500/10 px-2.5 py-1 rounded-lg border border-rose-500/20 active:scale-95">Reset</button>
             </div>
-            <div id="statsLogs" class="space-y-2 max-h-60 overflow-y-auto text-sm">
-                <!-- Se inyecta por LocalStorage -->
-            </div>
+            <div id="statsLogs" class="space-y-2 max-h-60 overflow-y-auto text-sm"></div>
         </section>
 
     </main>
 
-    <!-- Reproductor Inferior Fijo Optimizado para el Pulgar -->
     <footer class="w-full max-w-md mx-auto bg-slate-900/95 backdrop-blur-lg border-t border-slate-800/80 px-6 pt-4 pb-6 fixed bottom-0 left-0 right-0 z-50 rounded-t-3xl shadow-2xl">
         <div class="space-y-3">
-            <!-- Información del Beat Activo -->
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2.5 overflow-hidden">
-                    <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-md animate-spin" style="animation-duration: 8s; animation-play-state: paused;" id="beatDisc animate-spin">
+                    <div class="w-10 h-10 bg-gradient-to-br from-amber-600 to-amber-800 rounded-xl flex items-center justify-center shadow-md" id="beatDisc">
                         <i data-lucide="disc" class="w-5 h-5 text-white/90"></i>
                     </div>
                     <div class="overflow-hidden">
                         <h4 id="currentBeatTitle" class="text-xs font-bold text-slate-200 truncate">Ningún Beat Seleccionado</h4>
-                        <p id="currentBeatGenre" class="text-[10px] font-medium text-slate-500 uppercase tracking-wider">Elige una pista abajo</p>
+                        <p id="currentBeatGenre" class="text-[10px] font-medium text-slate-500 uppercase tracking-wider">Boom Bap Instrumentals</p>
                     </div>
                 </div>
-                <!-- Badge de Tiempo de Sesión -->
                 <span id="sessionChronometer" class="text-xs font-mono bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700/60 text-slate-300">00:00</span>
             </div>
 
-            <!-- Controles del Reproductor (Áreas de interacción de mínimo 44px) -->
             <div class="flex items-center justify-between gap-4 pt-1">
                 <div class="flex items-center gap-2 bg-slate-800/50 p-1 rounded-xl border border-slate-700/40 w-1/2 justify-between">
-                    <button id="btnTempoDown" aria-label="Bajar Intervalo" class="w-10 h-10 rounded-lg flex items-center justify-center text-slate-400 hover:text-white active:bg-slate-700/50 transition-all">
+                    <button id="btnTempoDown" class="w-10 h-10 rounded-lg flex items-center justify-center text-slate-400 hover:text-white active:bg-slate-700/50">
                         <i data-lucide="minus" class="w-4 h-4"></i>
                     </button>
                     <span id="tempoDisplay" class="text-xs font-bold text-slate-300">10s / Palabra</span>
-                    <button id="btnTempoUp" aria-label="Subir Intervalo" class="w-10 h-10 rounded-lg flex items-center justify-center text-slate-400 hover:text-white active:bg-slate-700/50 transition-all">
+                    <button id="btnTempoUp" class="w-10 h-10 rounded-lg flex items-center justify-center text-slate-400 hover:text-white active:bg-slate-700/50">
                         <i data-lucide="plus" class="w-4 h-4"></i>
                     </button>
                 </div>
 
-                <button id="btnPlayPause" aria-label="Reproducir o Pausar" class="w-1/2 bg-white text-slate-950 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all">
-                    <i data-lucide="play" class="w-4 h-4 fill-current" id="playIcon"></i> <span id="playText">Reproducir Beat</span>
+                <button id="btnPlayPause" class="w-1/2 bg-white text-slate-950 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all">
+                    <i data-lucide="play" class="w-4 h-4 fill-current" id="playIcon"></i> <span id="playText">Activar Ritmo</span>
                 </button>
             </div>
         </div>
     </footer>
 
-    <!-- Elemento de Audio Nativo Oculto -->
     <audio id="audioEngine" loop preload="auto"></audio>
 
-    <!-- LOGICA SCRIPT DEL SISTEMA -->
     <script>
-        // --- BASE DE DATOS PRECARGADA (Figuras, Ejercicios, Beats, Palabras) ---
+        // --- BASE DE DATOS LINGÜÍSTICA Y FIGURAS ---
         const SKILLS_DATA = [
-            { id: 'metafora', name: 'Metáfora / Símil', desc: 'Asociar conceptos distantes para crear imágenes potentes.' },
-            { id: 'calambur', name: 'Calambur / Doble Sentido', desc: 'Agrupar sílabas de forma distinta para cambiar el significado.' },
-            { id: 'anagrama', name: 'Terminaciones Cruzadas', desc: 'Estructurar rimas complejas alternando patrones A-B-A-B.' },
-            { id: 'libre', name: 'Flujo Libre / Punchline', desc: 'Ingenio puro enfocado en cerrar con fuerza el patrón.' }
+            { id: 'metafora', name: 'Metáfora y Símil', desc: 'Conectar ideas distintas usando analogías directas o indirectas.' },
+            { id: 'calambur', name: 'Calambur (Doble Sentido)', desc: 'Modificar la agrupación de las sílabas para crear dos palabras distintas.' },
+            { id: 'retruecano', name: 'Retruécano (Inversión)', desc: 'Repetir una frase invirtiendo el orden de las palabras para cambiar el sentido.' },
+            { id: 'libre', name: 'Punchline Libre', desc: 'Ingenio y remate contundente usando conceptos locales.' }
         ];
 
+        // --- EJERCICIOS EXPLICADOS CON INSTRUCCIONES Y EJEMPLOS REALES (#1) ---
         const EXERCISES_DATA = [
-            { id: 'palabras', name: 'Palabras Cambiantes', desc: 'Adapta la palabra en pantalla cada ciertos segundos sin perder el hilo.' },
-            { id: 'conceptos', name: 'Objetos e Imágenes', desc: 'Involucra el objeto mostrado en una metáfora obligatoria.' },
-            { id: 'tematica', name: 'Temáticas de Competición', desc: 'Desarrolla todo tu argumento alrededor del eje conceptual mostrado.' }
+            { 
+                id: 'palabras', 
+                name: 'Modo Estímulo Sonorense', 
+                desc: 'Integra obligatoriamente la palabra regional que aparece en pantalla dentro de tus próximas rimas antes de que cambie el cronómetro.',
+                example: '"Me dicen el bichi porque ando sin filtros en el Microphone, / rompiendo la tarima de Hermosillo directo hasta tu cantón."'
+            },
+            { 
+                id: 'conceptos', 
+                name: 'Comparativa de Entorno', 
+                desc: 'Compara tu estilo, tu nivel o la situación de tu rival con el concepto o locación de Sonora que se muestra en pantalla.',
+                example: '"Mi mente quema más barras que el sol de San Luis Río Colorado, / tú eres agua helada en el desierto, por eso ya te has evaporado."'
+            },
+            { 
+                id: 'situacional', 
+                name: 'Eje Temático Local', 
+                desc: 'No uses la palabra suelta; desarrolla todo un argumento, historia o ataque basado en la situación o lugar sonorense indicado.',
+                example: '"Esto es como viajar en camión de Obregón en pleno verano sin refrigeración: / una tortura total para tu ego cuando te tiro mi mejor improvisación."'
+            }
         ];
 
+        // --- 3 TRACKS DE RITMO PURO BOOM BAP HIP-HOP (#3) ---
         const BEATS_DATA = [
-            { id: 'boombap', title: 'Classic Boom Bap (90 BPM)', genre: 'Urbano Hardcore', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' }, // Audio de prueba seguro por CDN
-            { id: 'trap', title: 'Sonora Trap Cypher (130 BPM)', genre: 'Modern Trap', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' },
-            { id: 'detroit', title: 'Detroit Type Beat (110 BPM)', genre: 'Agresivo / Métrico', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3' }
+            { id: 'bb_classic', title: 'Boom Bap Old School (90 BPM)', genre: 'Hip Hop Clásico', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
+            { id: 'bb_90s', title: 'Underground Street Beat (88 BPM)', genre: '90s Grit & Vinyl', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' },
+            { id: 'bb_jazz', title: 'Lofi Jazz Boom Bap (92 BPM)', genre: 'Métrico & Relajado', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3' }
         ];
 
+        // --- BANCO GRANDE DE PALABRAS Y REGIONALISMOS DE SONORA (#2) ---
         const VOCABULARY = {
-            palabras: ['Asfalto', 'Microphone', 'Desierto', 'Corona', 'Estructura', 'Graffiti', 'Veneno', 'Espejo', 'Cicatriza', 'Sinfonía', 'Código', 'Impedimento', 'Frecuencia', 'Escombro', 'Horizonte', 'Cráneo'],
-            conceptos: ['Un reloj de arena sin arena', 'Una jaula con las puertas abiertas', 'Un espejo roto que refleja el futuro', 'Una espada de doble filo de papel', 'Una moneda de oro cayendo al lodo'],
-            tematica: ['La Inteligencia Artificial en las calles', 'Vivir sin tecnología por 24 horas', 'El calor extremo del desierto de Sonora', 'El precio real del éxito y la fama', 'La evolución de la cultura hip-hop']
+            palabras: [
+                'Bichi', 'Chilo', 'Machín', 'Morro', 'Cantón', 'Cahuamanta', 'Pitahaya', 'Fierro', 'Teco', 'Bato',
+                'Plebe', 'Cura', 'Cheve', 'Malilla', 'Sahuaro', 'Pápago', 'Yaqui', 'Seri', 'Pitiquito', 'Tiburón',
+                'Chubasco', 'Canícula', 'Desierto', 'Cochis', 'Tacuache', 'Pinto', 'Carrucha', 'Huila', 'Estoraque',
+                'Mesquite', 'Bacánora', 'Machaca', 'Chiltepín', 'Asfalto', 'Estilo', 'Tarima', 'Lírica', 'Estructura'
+            ],
+            conceptos: [
+                'Cerro de la Campana', 'Un dogo con todo', 'El calor de 48 grados', 'Playa de Kino en invierno',
+                'Un camión lleno por el bulevar', 'Estación de camiones de Obregón', 'Las dunas de San Luis',
+                'Una hielera con hielo seco', 'Un sombrero vaquero en el cypher', 'La línea de Nogales'
+            ],
+            situacional: [
+                'Un domingo familiar en la Plaza Zaragoza', 'Quedarse tirado sin gasolina en la carretera a Guaymas',
+                'Comer coyotas recién hechas en Villa de Seris', 'Un cypher bajo la sombra de un tejabán',
+                'Soportar un apagón de luz a mitad de julio', 'Cruzar la frontera caminando a las 3 AM'
+            ]
         };
 
-        // --- ESTADO GLOBAL DE LA APLICACIÓN ---
+        // --- ESTADO DE LA APP ---
         let appState = {
             selectedSkill: 'metafora',
             selectedExercise: 'palabras',
-            selectedBeat: 'boombap',
+            selectedBeat: 'bb_classic',
             tempoSeconds: 10,
             isPlaying: false,
             trainingActive: false,
             currentTimer: null,
             chronometerTimer: null,
             sessionSeconds: 0,
-            countdownRemaining: 10
+            countdownRemaining: 10,
+            lastIndices: { palabras: [], conceptos: [], situacional: [] } // Evita repeticiones continuas
         };
 
-        // --- REFERENCIAS DEL DOM ---
+        // --- REFERENCIAS DOM ---
         const audioEngine = document.getElementById('audioEngine');
         const skillsGrid = document.getElementById('skillsGrid');
         const exercisesGrid = document.getElementById('exercisesGrid');
@@ -234,6 +251,7 @@
         const activeSkillBadge = document.getElementById('activeSkillBadge');
         const timerCountdown = document.getElementById('timerCountdown');
         const exerciseInstruction = document.getElementById('exerciseInstruction');
+        const exerciseExample = document.getElementById('exerciseExample');
         const currentBeatTitle = document.getElementById('currentBeatTitle');
         const currentBeatGenre = document.getElementById('currentBeatGenre');
         const tempoDisplay = document.getElementById('tempoDisplay');
@@ -249,135 +267,128 @@
         const statsSection = document.getElementById('statsSection');
         const statsLogs = document.getElementById('statsLogs');
         const btnClearStats = document.getElementById('btnClearStats');
+        const beatDisc = document.getElementById('beatDisc');
 
-        // --- FUNCIONES DE RENDERIZADO DE INTERFAZ ---
-        function initializeSetupUI() {
-            // Renderizar Habilidades
-            skillsGrid.innerHTML = SKILLS_DATA.map(skill => `
-                <button onclick="setSkill('${skill.id}')" id="skill-${skill.id}" class="w-full text-left p-3.5 rounded-xl border transition-all flex flex-col gap-0.5 active:scale-[0.98]">
-                    <span class="font-bold text-sm text-slate-200">${skill.name}</span>
-                    <span class="text-xs text-slate-400">${skill.desc}</span>
+        // --- INICIALIZACIÓN DE SELECCIONES ---
+        function initUI() {
+            skillsGrid.innerHTML = SKILLS_DATA.map(s => `
+                <button onclick="setSkill('${s.id}')" id="skill-${s.id}" class="w-full text-left p-3.5 rounded-xl border flex flex-col gap-0.5 active:scale-[0.98]">
+                    <span class="font-bold text-sm text-slate-200">${s.name}</span>
+                    <span class="text-xs text-slate-400">${s.desc}</span>
                 </button>
             `).join('');
 
-            // Renderizar Ejercicios
-            exercisesGrid.innerHTML = EXERCISES_DATA.map(ex => `
-                <button onclick="setExercise('${ex.id}')" id="ex-${ex.id}" class="w-full text-left p-3.5 rounded-xl border transition-all flex flex-col gap-0.5 active:scale-[0.98]">
-                    <span class="font-bold text-sm text-slate-200">${ex.name}</span>
-                    <span class="text-xs text-slate-400">${ex.desc}</span>
+            exercisesGrid.innerHTML = EXERCISES_DATA.map(e => `
+                <button onclick="setExercise('${e.id}')" id="ex-${e.id}" class="w-full text-left p-3.5 rounded-xl border flex flex-col gap-0.5 active:scale-[0.98]">
+                    <span class="font-bold text-sm text-slate-200">${e.name}</span>
+                    <span class="text-xs text-slate-400 truncate">${e.desc}</span>
                 </button>
             `).join('');
 
-            // Renderizar Beats
-            beatsRadioGroup.innerHTML = BEATS_DATA.map(beat => `
-                <div onclick="setBeat('${beat.id}')" id="beatcard-${beat.id}" class="w-full text-left p-3.5 rounded-xl border transition-all flex items-center justify-between cursor-pointer active:scale-[0.98]">
+            beatsRadioGroup.innerHTML = BEATS_DATA.map(b => `
+                <div onclick="setBeat('${b.id}')" id="beatcard-${b.id}" class="w-full text-left p-3.5 rounded-xl border flex items-center justify-between cursor-pointer active:scale-[0.98]">
                     <div class="flex items-center gap-3">
-                        <div class="w-2 h-2 rounded-full bg-slate-600 dynamic-dot"></div>
+                        <div class="w-2 h-2 rounded-full bg-slate-600 dot-indicator"></div>
                         <div>
-                            <p class="font-bold text-sm text-slate-200">${beat.title}</p>
-                            <p class="text-[10px] text-slate-400 uppercase tracking-wider">${beat.genre}</p>
+                            <p class="font-bold text-sm text-slate-200">${b.title}</p>
+                            <p class="text-[10px] text-slate-400 uppercase tracking-wider">${b.genre}</p>
                         </div>
                     </div>
-                    <i data-lucide="music-4" class="w-4 h-4 text-slate-500"></i>
+                    <i data-lucide="music" class="w-4 h-4 text-slate-500"></i>
                 </div>
             `).join('');
 
-            updateSelectionStyles();
+            updateStyles();
             lucide.createIcons();
         }
 
-        function updateSelectionStyles() {
-            // Actualizar Estilos Habilidades
+        function updateStyles() {
             SKILLS_DATA.forEach(s => {
-                const el = document.getElementById(`skill-${s.id}`);
-                if(s.id === appState.selectedSkill) {
-                    el.className = "w-full text-left p-3.5 rounded-xl border-2 border-indigo-500 bg-indigo-600/10 flex flex-col gap-0.5 active:scale-[0.98]";
-                } else {
-                    el.className = "w-full text-left p-3.5 rounded-xl border-slate-800 bg-slate-900/20 flex flex-col gap-0.5 active:scale-[0.98]";
-                }
+                document.getElementById(`skill-${s.id}`).className = s.id === appState.selectedSkill 
+                    ? "w-full text-left p-3.5 rounded-xl border-2 border-amber-500 bg-amber-600/10 flex flex-col gap-0.5"
+                    : "w-full text-left p-3.5 rounded-xl border-slate-800 bg-slate-900/20 flex flex-col gap-0.5";
             });
 
-            // Actualizar Estilos Ejercicios
             EXERCISES_DATA.forEach(e => {
-                const el = document.getElementById(`ex-${e.id}`);
-                if(e.id === appState.selectedExercise) {
-                    el.className = "w-full text-left p-3.5 rounded-xl border-2 border-emerald-500 bg-emerald-600/10 flex flex-col gap-0.5 active:scale-[0.98]";
-                } else {
-                    el.className = "w-full text-left p-3.5 rounded-xl border-slate-800 bg-slate-900/20 flex flex-col gap-0.5 active:scale-[0.98]";
-                }
+                document.getElementById(`ex-${e.id}`).className = e.id === appState.selectedExercise 
+                    ? "w-full text-left p-3.5 rounded-xl border-2 border-emerald-500 bg-emerald-600/10 flex flex-col gap-0.5"
+                    : "w-full text-left p-3.5 rounded-xl border-slate-800 bg-slate-900/20 flex flex-col gap-0.5";
             });
 
-            // Actualizar Estilos Beats
             BEATS_DATA.forEach(b => {
                 const el = document.getElementById(`beatcard-${b.id}`);
-                const dot = el.querySelector('.dynamic-dot');
+                const dot = el.querySelector('.dot-indicator');
                 if(b.id === appState.selectedBeat) {
-                    el.className = "w-full text-left p-3.5 rounded-xl border-2 border-purple-500 bg-purple-600/10 flex items-center justify-between cursor-pointer active:scale-[0.98]";
+                    el.className = "w-full text-left p-3.5 rounded-xl border-2 border-purple-500 bg-purple-600/10 flex items-center justify-between cursor-pointer";
                     dot.className = "w-2 h-2 rounded-full bg-purple-400 animate-pulse";
                 } else {
-                    el.className = "w-full text-left p-3.5 rounded-xl border-slate-800 bg-slate-900/20 flex items-center justify-between cursor-pointer active:scale-[0.98]";
+                    el.className = "w-full text-left p-3.5 rounded-xl border-slate-800 bg-slate-900/20 flex items-center justify-between cursor-pointer";
                     dot.className = "w-2 h-2 rounded-full bg-slate-600";
                 }
             });
         }
 
-        // --- MANEJADORES DE ESTADO (SETTERS) ---
-        window.setSkill = function(id) { appState.selectedSkill = id; updateSelectionStyles(); };
-        window.setExercise = function(id) { appState.selectedExercise = id; updateSelectionStyles(); };
+        window.setSkill = function(id) { appState.selectedSkill = id; updateStyles(); };
+        window.setExercise = function(id) { appState.selectedExercise = id; updateStyles(); };
         window.setBeat = function(id) { 
             appState.selectedBeat = id; 
-            updateSelectionStyles(); 
+            updateStyles(); 
             const beat = BEATS_DATA.find(b => b.id === id);
             audioEngine.src = beat.url;
             currentBeatTitle.textContent = beat.title;
-            currentBeatGenre.textContent = beat.genre;
-            if(appState.isPlaying) {
-                audioEngine.play().catch(e => console.log("Interrupción de audio controlada"));
-            }
+            if(appState.isPlaying) audioEngine.play().catch(() => {});
         };
 
-        // --- LOGICA DE ENTRENAMIENTO Y TEMPORIZADORES ---
-        function startTrainingSession() {
+        // --- SISTEMA INTERNO ANTI-REPETICIÓN DE VOCABULARIO (#2) ---
+        function getUniqueRandomStimulus(type) {
+            const pool = VOCABULARY[type];
+            let history = appState.lastIndices[type];
+            
+            // Si el historial está lleno o cubre más de la mitad, saca el más viejo
+            if (history.length >= Math.floor(pool.length / 2)) {
+                history.shift();
+            }
+
+            let availableIndices = [];
+            for (let i = 0; i < pool.length; i++) {
+                if (!history.includes(i)) availableIndices.push(i);
+            }
+
+            const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+            history.push(randomIndex);
+            return pool[randomIndex];
+        }
+
+        // --- CONTROL DE ENTRENAMIENTO ---
+        function startTraining() {
             appState.trainingActive = true;
             setupSection.classList.add('hidden');
             trainingSection.classList.remove('hidden');
-            
-            // Forzar reproducción del beat si no está activo
-            if(!appState.isPlaying) {
-                togglePlayPause();
-            }
 
-            // Setear Info Inicial en Pantalla de Entrenamiento
-            const skillObj = SKILLS_DATA.find(s => s.id === appState.selectedSkill);
-            activeSkillBadge.textContent = skillObj.name;
-            
-            const exObj = EXERCISES_DATA.find(e => e.id === appState.selectedExercise);
-            exerciseInstruction.textContent = exObj.desc;
+            if(!appState.isPlaying) togglePlayPause();
 
-            // Iniciar Ciclo de Estímulos
-            cycleStimulus();
+            const skill = SKILLS_DATA.find(s => s.id === appState.selectedSkill);
+            activeSkillBadge.textContent = skill.name;
+
+            const ex = EXERCISES_DATA.find(e => e.id === appState.selectedExercise);
+            exerciseInstruction.textContent = ex.desc;
+            exerciseExample.textContent = ex.example;
+
+            runTimer();
             startChronometer();
         }
 
-        function cycleStimulus() {
+        function runTimer() {
             clearInterval(appState.currentTimer);
+            stimulusDisplay.textContent = getUniqueRandomStimulus(appState.selectedExercise);
             
-            // Obtener Palabra/Concepto Aleatorio sin inyección directa XSS
-            const pool = VOCABULARY[appState.selectedExercise] || VOCABULARY.palabras;
-            const randomIndex = Math.floor(Math.random() * pool.length);
-            stimulusDisplay.textContent = pool[randomIndex].toUpperCase();
-
-            // Reiniciar Contador Visual
             appState.countdownRemaining = appState.tempoSeconds;
             timerCountdown.textContent = `${appState.countdownRemaining}s`;
 
             appState.currentTimer = setInterval(() => {
                 appState.countdownRemaining--;
                 timerCountdown.textContent = `${appState.countdownRemaining}s`;
-                
-                if(appState.countdownRemaining <= 0) {
-                    cycleStimulus();
-                }
+                if(appState.countdownRemaining <= 0) runTimer();
             }, 1000);
         }
 
@@ -385,25 +396,19 @@
             clearInterval(appState.chronometerTimer);
             appState.chronometerTimer = setInterval(() => {
                 appState.sessionSeconds++;
-                const mins = String(Math.floor(appState.sessionSeconds / 60)).padStart(2, '0');
-                const secs = String(appState.sessionSeconds % 60).padStart(2, '0');
-                sessionChronometer.textContent = `${mins}:${secs}`;
+                const m = String(Math.floor(appState.sessionSeconds / 60)).padStart(2, '0');
+                const s = String(appState.sessionSeconds % 60).padStart(2, '0');
+                sessionChronometer.textContent = `${m}:${s}`;
             }, 1000);
         }
 
-        function stopTrainingSession() {
+        function stopTraining() {
             appState.trainingActive = false;
             clearInterval(appState.currentTimer);
             clearInterval(appState.chronometerTimer);
-            
-            // Guardar en LocalStorage si entrenó más de 5 segundos
-            if(appState.sessionSeconds > 5) {
-                saveTrainingSessionLog();
-            }
-
+            if(appState.sessionSeconds > 3) saveLog();
             appState.sessionSeconds = 0;
             sessionChronometer.textContent = "00:00";
-            
             trainingSection.classList.add('hidden');
             setupSection.classList.remove('hidden');
         }
@@ -413,157 +418,75 @@
             if(!audioEngine.src) {
                 audioEngine.src = beat.url;
                 currentBeatTitle.textContent = beat.title;
-                currentBeatGenre.textContent = beat.genre;
             }
 
             if(appState.isPlaying) {
                 audioEngine.pause();
                 appState.isPlaying = false;
                 playIcon.setAttribute('data-lucide', 'play');
-                playText.textContent = "Reproducir Beat";
+                playText.textContent = "Activar Ritmo";
+                beatDisc.classList.remove('animate-spin');
             } else {
                 audioEngine.play().then(() => {
                     appState.isPlaying = true;
                     playIcon.setAttribute('data-lucide', 'pause');
-                    playText.textContent = "Pausar Beat";
-                }).catch(err => {
-                    alert("Por seguridad del navegador, interactúa primero con la pantalla para reproducir audio.");
+                    playText.textContent = "Pausar Ritmo";
+                    beatDisc.classList.add('animate-spin');
+                    beatDisc.style.animationDuration = '4s';
+                }).catch(() => {
+                    alert("Toca la pantalla primero para activar el sistema de reproducción de audio.");
                 });
             }
             lucide.createIcons();
         }
 
-        // --- CONFIGURACIÓN DE TIEMPO (TEMPO DE ESTÍMULOS) ---
-        btnTempoUp.addEventListener('click', () => {
-            if(appState.tempoSeconds < 30) {
-                appState.tempoSeconds += 2;
-                updateTempoDisplay();
-            }
-        });
-
-        btnTempoDown.addEventListener('click', () => {
-            if(appState.tempoSeconds > 4) {
-                appState.tempoSeconds -= 2;
-                updateTempoDisplay();
-            }
-        });
-
-        function updateTempoDisplay() {
+        // --- MANEJO DE TEMPO ---
+        btnTempoUp.addEventListener('click', () => { if(appState.tempoSeconds < 20) { appState.tempoSeconds += 2; updateTempo(); } });
+        btnTempoDown.addEventListener('click', () => { if(appState.tempoSeconds > 4) { appState.tempoSeconds -= 2; updateTempo(); } });
+        function updateTempo() {
             tempoDisplay.textContent = `${appState.tempoSeconds}s / Palabra`;
-            if(appState.trainingActive) {
-                cycleStimulus(); // Reinicia el ciclo inmediatamente con el nuevo tempo si está activo
-            }
+            if(appState.trainingActive) runTimer();
         }
 
-        // --- PERSISTENCIA LOCAL (LOCALSTORAGE) ---
-        function saveTrainingSessionLog() {
-            let history = JSON.parse(localStorage.getItem('RapSkills_Logs')) || [];
-            const skillObj = SKILLS_DATA.find(s => s.id === appState.selectedSkill);
-            const exObj = EXERCISES_DATA.find(e => e.id === appState.selectedExercise);
-            
-            const newLog = {
-                id: Date.now(),
-                skill: skillObj.name,
-                exercise: exObj.name,
-                duration: appState.sessionSeconds,
+        // --- REGISTROS Y LOCALSTORAGE ---
+        function saveLog() {
+            let logs = JSON.parse(localStorage.getItem('SonoraRap_Logs')) || [];
+            logs.unshift({
+                skill: SKILLS_DATA.find(s => s.id === appState.selectedSkill).name,
+                exercise: EXERCISES_DATA.find(e => e.id === appState.selectedExercise).name,
+                time: appState.sessionSeconds,
                 date: new Date().toLocaleDateString('es-MX')
-            };
-
-            history.unshift(newLog); // Agregar al inicio
-            localStorage.setItem('RapSkills_Logs', JSON.stringify(history));
-            renderStats();
+            });
+            localStorage.setItem('SonoraRap_Logs', JSON.stringify(logs));
+            renderLogs();
         }
 
-        function renderStats() {
-            const history = JSON.parse(localStorage.getItem('RapSkills_Logs')) || [];
-            if(history.length === 0) {
-                statsLogs.innerHTML = `<p class="text-slate-500 text-xs text-center py-4">No hay entrenamientos registrados aún.</p>`;
+        function renderLogs() {
+            const logs = JSON.parse(localStorage.getItem('SonoraRap_Logs')) || [];
+            if(!logs.length) {
+                statsLogs.innerHTML = `<p class="text-slate-500 text-xs text-center py-4">No hay sesiones grabadas esta semana.</p>`;
                 return;
             }
-
-            statsLogs.innerHTML = history.map(log => {
-                const minutes = Math.floor(log.duration / 60);
-                const seconds = log.duration % 60;
-                const durationString = minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
-                
-                // Construcción segura textContent evadiendo XSS implicito
-                const div = document.createElement('div');
-                div.className = "p-3 bg-slate-950/40 border border-slate-800 rounded-xl flex justify-between items-center";
-                
-                const leftSide = document.createElement('div');
-                const title = document.createElement('p');
-                title.className = "font-bold text-xs text-slate-200";
-                title.textContent = `${log.skill} (${log.exercise})`;
-                const sub = document.createElement('p');
-                sub.className = "text-[10px] text-slate-500";
-                sub.textContent = log.date;
-                leftSide.appendChild(title);
-                leftSide.appendChild(sub);
-
-                const rightSide = document.createElement('span');
-                rightSide.className = "text-xs font-mono bg-indigo-950 text-indigo-400 border border-indigo-900 px-2 py-0.5 rounded-md font-bold";
-                rightSide.textContent = durationString;
-
-                div.appendChild(leftSide);
-                div.appendChild(rightSide);
-                return div.outerHTML;
-            }).join('');
+            statsLogs.innerHTML = logs.map(l => `
+                <div class="p-3 bg-slate-950/40 border border-slate-800 rounded-xl flex justify-between items-center">
+                    <div>
+                        <p class="font-bold text-xs text-slate-200">${l.skill}</p>
+                        <p class="text-[10px] text-slate-500">${l.date} • ${l.exercise}</p>
+                    </div>
+                    <span class="text-xs font-mono bg-amber-950 text-amber-400 border border-amber-900 px-2 py-0.5 rounded font-bold">${l.time}s</span>
+                </div>
+            `).join('');
         }
 
-        // --- ESCUCHADORES DE EVENTOS ---
-        btnStartTraining.addEventListener('click', startTrainingSession);
-        btnSkipStimulus.addEventListener('click', cycleStimulus);
-        btnChangeConfig.addEventListener('click', stopTrainingSession);
+        // --- ESCUCHADORES ---
+        btnStartTraining.addEventListener('click', startTraining);
+        btnSkipStimulus.addEventListener('click', runTimer);
+        btnChangeConfig.addEventListener('click', stopTraining);
         btnPlayPause.addEventListener('click', togglePlayPause);
-        
-        btnStats.addEventListener('click', () => {
-            statsSection.classList.toggle('hidden');
-            renderStats();
-            // Scroll suave hacia la sección de estadísticas
-            if(!statsSection.classList.contains('hidden')) {
-                statsSection.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
+        btnStats.addEventListener('click', () => { statsSection.classList.toggle('hidden'); renderLogs(); });
+        btnClearStats.addEventListener('click', () => { if(confirm("¿Borrar bitácora?")) { localStorage.removeItem('SonoraRap_Logs'); renderLogs(); } });
 
-        btnClearStats.addEventListener('click', () => {
-            if(confirm("¿Quieres borrar todo tu historial de entrenamiento?")) {
-                localStorage.removeItem('RapSkills_Logs');
-                renderStats();
-            }
-        });
-
-        // --- INITIALIZATION ---
-        window.onload = () => {
-            initializeSetupUI();
-            renderStats();
-        };
-    </script>
-
-    <!-- REGISTRO DEL SERVICE WORKER INLINE PARA DETECTABILIDAD PWA -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                // Truco de Data URI para sw.js autogenerable y autocontenido
-                const swCode = `
-                    const CACHE_NAME = 'rapskills-v1';
-                    const ASSETS = [
-                        './',
-                        './index.html'
-                    ];
-                    self.addEventListener('install', e => {
-                        e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(ASSETS)));
-                    });
-                    self.addEventListener('fetch', e => {
-                        e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
-                    });
-                `;
-                const blob = new Blob([swCode], { type: 'application/javascript' });
-                const swUrl = URL.createObjectURL(blob);
-                
-                // Nota: Para producción real en servidor, se sugiere un archivo físico 'sw.js' continuo al index.html.
-                console.log("PWA Engine cargado y listo para empaquetado.");
-            });
-        }
+        window.onload = initUI;
     </script>
 </body>
 </html>
