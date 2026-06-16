@@ -3,31 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>AgoraPolis - Campañas & Coyuntura</title>
+    <title>AgoraPolis - Campñas & Coyuntura</title>
     
-    <!-- Meta tags nativos PWA -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0f172a">
     
-    <!-- Manifest en línea -->
     <link rel="manifest" href="data:application/json;base64,ewogICJkZWZhdWx0X2xvY2FsZSI6ICJlcyIsCiAgIm5hbWUiOiAiQWdvcmFQb2xpcyBNZWRpb3MiLAogICJzaG9ydF9uYW1lIjogIkFnb3JhUG9saXMiLAogICJkZXNjcmlwdGlvbiI6ICJIdWIgZGUgcGVyaW9kaXNtbyBpbmRlcGVuZGllbnRlIHkgYXNlc29yw61hIHBvbMOtdGljYSIsCiAgInN0YW5kYWxvbmUiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzBmMTcyYSIsCiAgInRoZW1lX2NvbG9yIjogIiMwZjE3MmEiLAogICpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2ltZy5pY29uczguY29tL2ZsdWVudHkvNTEyL2dvdmVybm1lbnQucG5nIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9CiAgXQp9">
 
-    <!-- CDNs estables -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .glass-nav {
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .glass-nav { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
@@ -46,8 +36,7 @@
                     <p class="text-[10px] text-indigo-400 font-bold tracking-wider uppercase">Operación & Estrategia</p>
                 </div>
             </div>
-            <!-- Botón Sincronizar de 44x44px táctil -->
-            <button id="sync-btn" onclick="fetchData()" class="w-11 h-11 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700 flex items-center justify-center transition-all active:scale-95" aria-label="Sincronizar datos">
+            <button id="sync-btn" onclick="fetchData()" class="w-11 h-11 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700 flex items-center justify-center transition-all active:scale-95">
                 <i data-lucide="refresh-cw" class="w-4 h-4 text-slate-300"></i>
             </button>
         </div>
@@ -56,45 +45,46 @@
     <!-- MAIN CONTAINER -->
     <main class="flex-1 max-w-md w-full mx-auto px-4 pt-24 space-y-5">
         
-        <!-- BUSCADOR CON DEBOUNCE IMPLÍCITO -->
+        <!-- CONSOLA DE ERROR DEPURADORA (Oculta por defecto) -->
+        <div id="debug-console" class="hidden bg-red-500/10 border border-red-500/30 rounded-xl p-3.5 text-xs text-red-400 space-y-1">
+            <p class="font-bold flex items-center gap-1.5"><i data-lucide="alert-triangle" class="w-4 h-4"></i> Monitor de Enlace Cloud:</p>
+            <p id="debug-message" class="font-mono text-[11px] leading-relaxed"></p>
+        </div>
+        
+        <!-- BUSCADOR -->
         <div class="relative">
             <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                 <i data-lucide="search" class="w-4 h-4 text-slate-500"></i>
             </span>
             <input type="text" id="search-bar" oninput="renderFeed()" placeholder="Buscar aviso, medio o palabra clave..." 
-                class="w-full h-12 pl-10 pr-4 bg-slate-800/40 border border-slate-800 rounded-xl text-sm placeholder-slate-500 text-white focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all">
+                class="w-full h-12 pl-10 pr-4 bg-slate-800/40 border border-slate-800 rounded-xl text-sm placeholder-slate-500 text-white focus:outline-none focus:border-indigo-500">
         </div>
 
-        <!-- FILTROS POR PLATAFORMA / TIPO (Thumb-friendly scrolling) -->
+        <!-- FILTROS -->
         <div class="flex gap-2 overflow-x-auto hide-scrollbar py-1">
             <button onclick="setPlatformFilter('all')" class="platform-tab px-4 h-9 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-indigo-600 text-white" data-platform="all">
                 Todo el flujo
             </button>
             <button onclick="setPlatformFilter('Aviso')" class="platform-tab px-4 h-9 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-400 border border-slate-800/60" data-platform="Aviso">
-                <i data-lucide="alert-circle" class="w-3.5 h-3.5 inline mr-1"></i> Avisos / Invitaciones
+                Avisos / Invitaciones
             </button>
             <button onclick="setPlatformFilter('Web')" class="platform-tab px-4 h-9 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-400 border border-slate-800/60" data-platform="Web">
-                <i data-lucide="globe" class="w-3.5 h-3.5 inline mr-1"></i> Portales
+                Portales
             </button>
             <button onclick="setPlatformFilter('Newsletter')" class="platform-tab px-4 h-9 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-400 border border-slate-800/60" data-platform="Newsletter">
-                <i data-lucide="mail" class="w-3.5 h-3.5 inline mr-1"></i> Newsletters
-            </button>
-            <button onclick="setPlatformFilter('X')" class="platform-tab px-4 h-9 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-400 border border-slate-800/60" data-platform="X">
-                <i data-lucide="twitter" class="w-3.5 h-3.5 inline mr-1"></i> X (Twitter)
+                Newsletters
             </button>
         </div>
 
-        <!-- CONTENEDOR DE TARJETAS -->
+        <!-- FEED -->
         <div id="feed-container" class="space-y-4">
-            <!-- Esqueleto de carga -->
             <div class="animate-pulse space-y-4">
-                <div class="h-36 bg-slate-800/40 rounded-xl border border-slate-800"></div>
                 <div class="h-36 bg-slate-800/40 rounded-xl border border-slate-800"></div>
             </div>
         </div>
     </main>
 
-    <!-- NAVEGACIÓN INFERIOR (ZONA DEL PULGAR - Mínimo 44px) -->
+    <!-- NAVEGACIÓN INFERIOR -->
     <nav class="fixed bottom-0 left-0 right-0 glass-nav border-t border-slate-800/80 z-50">
         <div class="max-w-md mx-auto flex justify-around items-center h-20">
             <button onclick="switchTab('Periodismo')" class="section-nav flex flex-col items-center justify-center w-20 h-14 text-indigo-400" data-section="Periodismo">
@@ -112,9 +102,10 @@
         </div>
     </nav>
 
-    <!-- LÓGICA JAVASCRIPT MASTER -->
     <script>
-        // URL de tu implementación de Google Apps Script (Colocar aquí al enlazar a producción)
+        // ==========================================
+        // COLOCA AQUÍ TU URL DE GOOGLE APPS SCRIPT
+        // ==========================================
         const API_URL = "https://script.google.com/macros/s/AKfycbwG17OG-MIZTVxUhNNTpkh38k-0aeKDr3NPhfbBYJsYF20ftBaT_86C4iFyxRN2MXcXQg/exec"; 
 
         let currentSection = "Periodismo";
@@ -128,37 +119,61 @@
 
         async function fetchData() {
             const syncBtn = document.getElementById('sync-btn');
+            const debugConsole = document.getElementById('debug-console');
+            const debugMessage = document.getElementById('debug-message');
+            
             if (syncBtn) syncBtn.classList.add('animate-spin');
+            if (debugConsole) debugConsole.classList.add('hidden');
 
+            // Intento de lectura de caché local preventivo
             const cache = localStorage.getItem(`polis_camp_cache_${currentSection}`);
             if (cache) {
                 feedData = JSON.parse(cache);
                 renderFeed();
             }
 
-            if (!API_URL) {
-                setTimeout(() => {
-                    feedData = getCampaignMockData(currentSection);
-                    localStorage.setItem(`polis_camp_cache_${currentSection}`, JSON.stringify(feedData));
-                    renderFeed();
-                    if (syncBtn) syncBtn.classList.remove('animate-spin');
-                }, 600);
+            if (!API_URL || API_URL.includes("AQUÍ_PEGA")) {
+                showDebug("No has colocado una URL válida en 'API_URL'. Se están cargando datos simulados de demostración local.");
+                loadMockData();
+                if (syncBtn) syncBtn.classList.remove('animate-spin');
                 return;
             }
 
             try {
-                const response = await fetch(`${API_URL}?seccion=${currentSection}`);
-                if (!response.ok) throw new Error("Error en red");
+                // Agregar timestamp para romper el caché agresivo del navegador móvil
+                const response = await fetch(`${API_URL}?seccion=${currentSection}&_ts=${Date.now()}`);
+                
+                if (!response.ok) throw new Error(`HTTP status ${response.status}`);
+                
                 const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(`Google Sheets dice: ${data.error}`);
+                }
+                
                 if (Array.isArray(data)) {
                     feedData = data;
                     localStorage.setItem(`polis_camp_cache_${currentSection}`, JSON.stringify(feedData));
                     renderFeed();
+                } else {
+                    throw new Error("El formato devuelto no es una lista válida. Revisa los encabezados del Sheets.");
                 }
             } catch (err) {
-                console.error("Modo local o fuera de línea activo:", err);
+                console.error(err);
+                showDebug(`${err.message}. Asegúrate de que implementaste el script como 'Aplicación Web' con acceso para 'Cualquiera'.`);
+                if (!cache) loadMockData(); 
             } finally {
                 if (syncBtn) syncBtn.classList.remove('animate-spin');
+            }
+        }
+
+        function showDebug(msg) {
+            const debugConsole = document.getElementById('debug-console');
+            const debugMessage = document.getElementById('debug-message');
+            if(debugConsole && debugMessage) {
+                debugConsole.classList.remove('hidden');
+                debugMessage.innerText = msg;
+                lucide.createIcons();
             }
         }
 
@@ -167,11 +182,17 @@
             container.innerHTML = "";
             const searchVal = document.getElementById("search-bar").value.toLowerCase();
 
+            // Mapeo tolerante a mayúsculas/minúsculas desde Sheets
             const filtered = feedData.filter(item => {
-                const platformMatch = (currentPlatform === "all" || item.tematica.trim() === currentPlatform);
-                const searchMatch = item.titulo.toLowerCase().includes(searchVal) || 
-                                    item.resumen.toLowerCase().includes(searchVal) ||
-                                    item.fuente.toLowerCase().includes(searchVal);
+                const itemPlatform = (item.tematica || item.temática || "").toString().trim();
+                const itemTitle = (item.titulo || item.título || "").toString().toLowerCase();
+                const itemResumen = (item.resumen || "").toString().toLowerCase();
+                const itemFuente = (item.fuente || "").toString().toLowerCase();
+
+                const platformMatch = (currentPlatform === "all" || itemPlatform === currentPlatform);
+                const searchMatch = itemTitle.includes(searchVal) || 
+                                    itemResumen.includes(searchVal) ||
+                                    itemFuente.includes(searchVal);
                 return platformMatch && searchMatch;
             });
 
@@ -179,7 +200,7 @@
                 container.innerHTML = `
                     <div class="flex flex-col items-center justify-center py-16 text-slate-600 text-center">
                         <i data-lucide="folder-open" class="w-8 h-8 mb-2 stroke-[1.5]"></i>
-                        <p class="text-xs font-medium">Sin contenido o avisos registrados en esta sección.</p>
+                        <p class="text-xs font-medium">No se encontraron renglones con datos o el filtro está vacío.</p>
                     </div>`;
                 lucide.createIcons();
                 return;
@@ -187,23 +208,27 @@
 
             filtered.forEach(item => {
                 const card = document.createElement("div");
-                const pfm = item.tematica.trim();
                 
-                // Sanitización estricta anti-XSS
-                const cleanTitle = escapeHTML(item.titulo);
-                const cleanResumen = escapeHTML(item.resumen);
-                const cleanFuente = escapeHTML(item.fuente);
-                const cleanLink = encodeURI(item.link || "");
-                const cleanImg = item.imagen ? encodeURI(item.imagen.trim()) : "";
+                // Normalización de llaves de objetos por si se escribieron con acentos en Sheets
+                const title = item.titulo || item.título || "Sin título";
+                const resumen = item.resumen || "Sin descripción";
+                const fuente = item.fuente || "Aviso General";
+                const pfm = (item.tematica || item.temática || "Web").toString().trim();
+                const link = item.link || "";
+                const img = item.imagen || "";
 
-                // Cambiar el estilo visual completo si es un aviso importante del equipo
+                const cleanTitle = escapeHTML(title);
+                const cleanResumen = escapeHTML(resumen);
+                const cleanFuente = escapeHTML(fuente);
+                const cleanLink = encodeURI(link.trim());
+                const cleanImg = img ? encodeURI(img.trim()) : "";
+
                 if (pfm === "Aviso") {
-                    card.className = "bg-gradient-to-br from-amber-500/10 to-orange-500/5 border border-amber-500/30 rounded-xl p-4 flex flex-col space-y-3 relative overflow-hidden shadow-md shadow-amber-500/5";
+                    card.className = "bg-gradient-to-br from-amber-500/10 to-orange-500/5 border border-amber-500/30 rounded-xl p-4 flex flex-col space-y-3 relative overflow-hidden shadow-md";
                 } else {
                     card.className = "bg-slate-800/30 border border-slate-800/80 rounded-xl p-4 flex flex-col space-y-3 transition-all";
                 }
 
-                // Configuración de Badges e Iconos según temática
                 let platformIcon = "globe";
                 let badgeStyle = "bg-slate-800 text-slate-300 border-slate-700";
 
@@ -213,20 +238,18 @@
                 else if (pfm === "Facebook") { platformIcon = "facebook"; badgeStyle = "bg-blue-500/10 text-blue-400 border-blue-500/20"; }
                 else if (pfm === "Newsletter") { platformIcon = "mail"; badgeStyle = "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"; }
 
-                // Lógica de inyección de imagen / flyer
                 let imageHTML = "";
-                if (cleanImg) {
+                if (cleanImg && cleanImg !== "") {
                     imageHTML = `<div class="w-full max-h-48 rounded-lg overflow-hidden border border-slate-700/50 bg-slate-900 flex items-center justify-center">
-                                    <img src="${cleanImg}" alt="Flyer Informativo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'">
+                                    <img src="${cleanImg}" alt="Flyer" class="w-full h-full object-cover" onerror="this.parentNode.style.display='none'">
                                  </div>`;
                 }
 
-                // Condicional para renderizar el botón de acción si existe link válido
                 let actionButtonHTML = "";
                 if (cleanLink && cleanLink !== "undefined" && cleanLink !== "") {
-                    let buttonText = "Analizar fuente original";
-                    if (pfm === "Newsletter") buttonText = "Leer newsletter corporativo";
-                    if (pfm === "Aviso") buttonText = "Confirmar asistencia / Ver enlace";
+                    let buttonText = "Abrir enlace de campaña";
+                    if (pfm === "Newsletter") buttonText = "Leer Newsletter Corporativo";
+                    if (pfm === "Aviso") buttonText = "Ver Convocatoria / Link";
                     
                     actionButtonHTML = `
                         <a href="${cleanLink}" target="_blank" rel="noopener noreferrer" 
@@ -283,36 +306,11 @@
             return str.replace(/[&<>'"]/g, t => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[t] || t));
         }
 
-        // Simulación local de datos mixtos (Avisos institucionales, imágenes y links)
-        function getCampaignMockData(sec) {
-            const mock = {
-                Periodismo: [
-                    { id: 101, titulo: "¡CONVOCATORIA ABIERTA! Laboratorio de Comunicación Política Juvenil", tematica: "Aviso", fuente: "Coordinación", resumen: "Atención equipo y jóvenes interesados: este jueves cerramos registros para el taller intensivo de Media Training. No requiere link externo, asistan directo a la sala b del instituto.", link: "", imagen: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=500&auto=format&fit=crop&q=60" },
-                    { id: 102, titulo: "Lanzamiento oficial de la plataforma de monitoreo independiente", tematica: "Newsletter", fuente: "Agora Newsletter", resumen: "En nuestra edición número 14 desglosamos las pautas clave para vigilar la transparencia presupuestal en redes sociales estatales.", link: "https://google.com", imagen: "" }
-                ],
-                Analisis: [
-                    { id: 201, titulo: "URGENTE: Reunión de análisis de métricas digitales del mes", tematica: "Aviso", fuente: "Estrategia", resumen: "Miembros del equipo de campaña: Nos vemos a las 5:00 PM vía Zoom para revisar los picos de interacción del último debate de jóvenes.", link: "https://zoom.us", imagen: "" },
-                    { id: 202, titulo: "Infografía: Consumo de medios digitales en jóvenes de 18 a 29 años", tematica: "Instagram", fuente: "@DataElectoral_Son", resumen: "Los datos arrojan que el 74% prefiere formatos de video vertical de menos de 30 segundos sobre propuestas públicas.", link: "https://instagram.com", imagen: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&auto=format&fit=crop&q=60" }
-                ],
-                Consultoria: [
-                    { id: 301, titulo: "Manual de Activismo Digital y Campañas Limpias para Equipos de Tierra", tematica: "Web", fuente: "Manuales ABC", resumen: "Documento indispensable de consulta rápida sobre ética comunicativa y contrarrestración de rumores en territorio.", link: "https://google.com", imagen: "" }
-                ]
-            };
-            return mock[sec] || [];
-        }
-    </script>
-
-    <!-- SERVICE WORKER INTERNO -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            const swCode = `
-                const CACHE_NAME = 'agora-camp-cache-v1';
-                const ASSETS = [ '/', '/index.html', 'https://cdn.tailwindcss.com', 'https://unpkg.com/lucide@latest' ];
-                self.addEventListener('install', (e) => { e.waitUntil(caches.open(CACHE_NAME).then((c) => c.addAll(ASSETS))); });
-                self.addEventListener('fetch', (e) => { e.respondWith(caches.match(e.request).then((res) => res || fetch(e.request))); });
-            `;
-            const blob = new Blob([swCode], { type: 'application/javascript' });
-            navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(err => console.log('SW Fail:', err));
+        function loadMockData() {
+            feedData = [
+                { id: 1, titulo: "Sistema operando en modo local", tematica: "Aviso", fuente: "Sistema", resumen: "Escribe tu URL de Google Apps Script arriba para enlazar en vivo tu base de datos.", link: "" }
+            ];
+            renderFeed();
         }
     </script>
 </body>
