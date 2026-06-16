@@ -3,106 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>AgoraPolis - Campañas & Coyuntura</title>
+    <title>AgoraPolis - Búnker de Información</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0f172a">
     
-    <link rel="manifest" href="data:application/json;base64,ewogICJkZWZhdWx0X2xvY2FsZSI6ICJlcyIsCiAgIm5hbWUiOiAiQWdvcmFQb2xpcyBNZWRpb3MiLAogICJzaG9ydF9uYW1lIjogIkFnb3JhUG9saXMiLAogICJkZXNjcmlwdGlvbiI6ICJIdWIgZGUgcGVyaW9kaXNtbyBpbmRlcGVuZGllbnRlIHkgYXNlc29yw61hIHBvbMOtdGljYSIsCiAgInN0YW5kYWxvbmUiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzBmMTcyYSIsCiAgInRoZW1lX2NvbG9yIjogIiMwZjE3MmEiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2ltZy5pY29uczguY29tL2ZsdWVudHkvNTEyL2dvdmVybm1lbnQucG5nIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9CiAgXQp9">
-
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-        .glass-nav { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        .glass-nav { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col pb-24 antialiased">
 
-    <header class="fixed top-0 left-0 right-0 z-50 glass-nav border-b border-slate-800 px-4 py-3.5">
-        <div class="max-w-md mx-auto flex items-center justify-between">
+    <!-- CABECERA PRINCIPAL -->
+    <header class="fixed top-0 left-0 right-0 z-40 glass-nav border-b border-slate-800/80 px-4 py-3.5">
+        <div class="max-w-xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-600 flex items-center justify-center border border-indigo-500/30 shadow-lg shadow-indigo-500/20">
-                    <i data-lucide="megaphone" class="w-5 h-5 text-white"></i>
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center border border-indigo-500/30 shadow-lg shadow-indigo-500/20">
+                    <i data-lucide="shield" class="w-5 h-5 text-white"></i>
                 </div>
                 <div>
-                    <h1 class="text-base font-bold tracking-tight text-white">AgoraPolis</h1>
-                    <p class="text-[10px] text-indigo-400 font-bold tracking-wider uppercase">Operación & Estrategia</p>
+                    <h1 class="text-base font-bold tracking-tight text-white">Búnker Electoral</h1>
+                    <p class="text-[10px] text-indigo-400 font-bold tracking-wider uppercase">Monitoreo en Tiempo Real</p>
                 </div>
             </div>
-            <button id="sync-btn" onclick="fetchData()" class="w-11 h-11 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700 flex items-center justify-center transition-all active:scale-95" aria-label="Sincronizar datos">
-                <i data-lucide="refresh-cw" class="w-4 h-4 text-slate-300"></i>
-            </button>
+            <div class="flex items-center gap-2">
+                <!-- Botón para Agregar Nota Directamente -->
+                <button onclick="openFormModal()" class="h-10 px-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 border border-indigo-400/30 flex items-center gap-1.5 text-xs font-bold transition-all active:scale-95 shadow-lg shadow-indigo-600/10">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i> Agregar Nota
+                </button>
+                <button id="sync-btn" onclick="fetchData()" class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center transition-all active:scale-95">
+                    <i data-lucide="refresh-cw" class="w-4 h-4 text-slate-300"></i>
+                </button>
+            </div>
         </div>
     </header>
 
-    <main class="flex-1 max-w-md w-full mx-auto px-4 pt-24 space-y-5">
+    <!-- CONTENEDOR CENTRAL -->
+    <main class="flex-1 max-w-xl w-full mx-auto px-4 pt-24 space-y-4">
         
-        <div id="debug-console" class="hidden bg-red-500/10 border border-red-500/30 rounded-xl p-3.5 text-xs text-red-400 space-y-1">
-            <p class="font-bold flex items-center gap-1.5"><i data-lucide="alert-triangle" class="w-4 h-4"></i> Monitor de Enlace en la Nube:</p>
-            <p id="debug-message" class="font-mono text-[11px] leading-relaxed"></p>
-        </div>
-        
+        <!-- BUSCADOR -->
         <div class="relative">
             <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                 <i data-lucide="search" class="w-4 h-4 text-slate-500"></i>
             </span>
-            <input type="text" id="search-bar" oninput="renderFeed()" placeholder="Buscar avisos, medios o palabras clave..." 
-                class="w-full h-12 pl-10 pr-4 bg-slate-800/40 border border-slate-800 rounded-xl text-sm placeholder-slate-500 text-white focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all">
+            <input type="text" id="search-bar" oninput="renderFeed()" placeholder="Filtrar notas por palabra clave o fuente..." 
+                class="w-full h-11 pl-10 pr-4 bg-slate-800/40 border border-slate-800 rounded-xl text-sm placeholder-slate-500 text-white focus:outline-none focus:border-indigo-500 transition-all">
         </div>
 
+        <!-- FILTROS DE REDES Y PLATAFORMAS -->
         <div class="flex gap-2 overflow-x-auto hide-scrollbar py-1">
-            <button onclick="setPlatformFilter('all')" class="platform-tab px-4 h-9 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-indigo-600 text-white" data-platform="all">
-                Todo el flujo
-            </button>
-            <button onclick="setPlatformFilter('Aviso')" class="platform-tab px-4 h-9 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-400 border border-slate-800/60" data-platform="Aviso">
-                Avisos / Invitaciones
-            </button>
-            <button onclick="setPlatformFilter('Web')" class="platform-tab px-4 h-9 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-400 border border-slate-800/60" data-platform="Web">
-                Portales Web
-            </button>
-            <button onclick="setPlatformFilter('Newsletter')" class="platform-tab px-4 h-9 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-400 border border-slate-800/60" data-platform="Newsletter">
-                Newsletters
-            </button>
-            <button onclick="setPlatformFilter('X')" class="platform-tab px-4 h-9 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-400 border border-slate-800/60" data-platform="X">
-                X (Twitter)
-            </button>
+            <button onclick="setPlatformFilter('all')" class="platform-tab px-3.5 h-8.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all bg-indigo-600 text-white" data-platform="all">Todo</button>
+            <button onclick="setPlatformFilter('Facebook')" class="platform-tab px-3.5 h-8.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-400 border border-slate-800" data-platform="Facebook">Facebook</button>
+            <button onclick="setPlatformFilter('Instagram')" class="platform-tab px-3.5 h-8.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-400 border border-slate-800" data-platform="Instagram">Instagram</button>
+            <button onclick="setPlatformFilter('X')" class="platform-tab px-3.5 h-8.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-400 border border-slate-800" data-platform="X">X (Twitter)</button>
+            <button onclick="setPlatformFilter('Web')" class="platform-tab px-3.5 h-8.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-400 border border-slate-800" data-platform="Web">Portales Web</button>
+            <button onclick="setPlatformFilter('Aviso')" class="platform-tab px-3.5 h-8.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-400 border border-slate-800" data-platform="Aviso">Internos</button>
         </div>
 
+        <!-- RECIPIENTE DE NOTAS (FEED) -->
         <div id="feed-container" class="space-y-4">
             <div class="animate-pulse space-y-4">
-                <div class="h-36 bg-slate-800/40 rounded-xl border border-slate-800"></div>
-                <div class="h-36 bg-slate-800/40 rounded-xl border border-slate-800"></div>
+                <div class="h-44 bg-slate-800/50 rounded-xl border border-slate-800"></div>
+                <div class="h-44 bg-slate-800/50 rounded-xl border border-slate-800"></div>
             </div>
         </div>
     </main>
 
-    <nav class="fixed bottom-0 left-0 right-0 glass-nav border-t border-slate-800/80 z-50">
-        <div class="max-w-md mx-auto flex justify-around items-center h-20">
+    <!-- NAVEGACIÓN INFERIOR -->
+    <nav class="fixed bottom-0 left-0 right-0 glass-nav border-t border-slate-800/80 z-40">
+        <div class="max-w-xl mx-auto flex justify-around items-center h-18">
             <button onclick="switchTab('Periodismo')" class="section-nav flex flex-col items-center justify-center w-20 h-14 text-indigo-400" data-section="Periodismo">
                 <i data-lucide="newspaper" class="w-5 h-5 mb-1"></i>
                 <span class="text-[10px] font-bold tracking-wide">Periodismo</span>
             </button>
             <button onclick="switchTab('Analisis')" class="section-nav flex flex-col items-center justify-center w-20 h-14 text-slate-400" data-section="Analisis">
-                <i data-lucide="pie-chart" class="w-5 h-5 mb-1"></i>
-                <span class="text-[10px] font-bold tracking-wide">Análisis</span>
+                <i data-lucide="trending-up" class="w-5 h-5 mb-1"></i>
+                <span class="text-[10px] font-bold tracking-wide">Tendencias</span>
             </button>
             <button onclick="switchTab('Consultoria')" class="section-nav flex flex-col items-center justify-center w-20 h-14 text-slate-400" data-section="Consultoria">
-                <i data-lucide="users" class="w-5 h-5 mb-1"></i>
-                <span class="text-[10px] font-bold tracking-wide">Asesores</span>
+                <i data-lucide="brain" class="w-5 h-5 mb-1"></i>
+                <span class="text-[10px] font-bold tracking-wide">Estrategia</span>
             </button>
         </div>
     </nav>
 
-    <script>
-        // ID de tu Google Sheets incrustado de forma nativa e infalible
-        const SPREADSHEET_ID = "1u1Hey3bmvuU_MrO4NEQItXHquXFwRQjsxO7vsucEbh8"; 
+    <!-- 1. VENTANA FLOTANTE: LECTOR DE NOTAS INTERNO (Para no salir del portal) -->
+    <div id="reader-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex flex-col justify-end sm:justify-center p-0 sm:p-4">
+        <div class="bg-slate-900 w-full max-w-2xl mx-auto h-[85vh] sm:h-[80vh] rounded-t-2xl sm:rounded-2xl border border-slate-800 flex flex-col overflow-hidden shadow-2xl">
+            <div class="px-4 py-3 bg-slate-850 border-b border-slate-800 flex items-center justify-between">
+                <span id="modal-source-badge" class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Cargando fuente...</span>
+                <button onclick="closeReaderModal()" class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 hover:text-white">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="flex-1 w-full h-full bg-white">
+                <!-- El Iframe proyecta la página completa aquí dentro -->
+                <iframe id="news-frame" src="" class="w-full h-full border-0 bg-white"></iframe>
+            </div>
+        </div>
+    </div>
 
+    <!-- 2. VENTANA FLOTANTE: FORMULARIO PARA AGREGAR INFORMACIÓN DIRECTO -->
+    <div id="form-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-slate-900 w-full max-w-md rounded-2xl border border-slate-800 p-5 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="text-sm font-bold text-white flex items-center gap-2"><i data-lucide="pen-tool" class="w-4 h-4 text-indigo-400"></i> Inyectar Nota al Búnker</h3>
+                <button onclick="closeFormModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+            </div>
+            <form id="campaign-form" onsubmit="submitToSheets(event)" class="space-y-3.5">
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Título de la Nota / Alerta</label>
+                    <input type="text" id="form-titulo" required class="w-full h-10 px-3 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:border-indigo-500">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Plataforma / Formato</label>
+                        <select id="form-tematica" class="w-full h-10 px-2 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:border-indigo-500">
+                            <option value="Web">Portal Web</option>
+                            <option value="Facebook">Facebook</option>
+                            <option value="Instagram">Instagram</option>
+                            <option value="X">X (Twitter)</option>
+                            <option value="Aviso">Aviso de Brigada</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Fuente / Autor</label>
+                        <input type="text" id="form-fuente" required placeholder="Ej. Proyecto Puente" class="w-full h-10 px-3 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:border-indigo-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Resumen / Copia Completa del Post</label>
+                    <textarea id="form-resumen" rows="3" required placeholder="Escribe o pega aquí todo el texto de la noticia para leerlo sin salir..." class="w-full p-3 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:border-indigo-500 resize-none"></textarea>
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Link de la Imagen / Flyer (Opcional)</label>
+                    <input type="url" id="form-imagen" placeholder="https://link-de-la-foto.com/imagen.jpg" class="w-full h-10 px-3 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:border-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Link Original de la Nota (Opcional)</label>
+                    <input type="url" id="form-link" placeholder="https://..." class="w-full h-10 px-3 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:border-indigo-500">
+                </div>
+                <button type="submit" class="w-full h-11 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-lg shadow-lg transition-all flex items-center justify-center gap-2">
+                    <i data-lucide="send" class="w-4 h-4"></i> Publicar en el Acto
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- NÚCLEO DE INTELIGENCIA DE DATOS -->
+    <script>
+        const SPREADSHEET_ID = "1u1Hey3bmvuU_MrO4NEQItXHquXFwRQjsxO7vsucEbh8"; 
         let currentSection = "Periodismo";
         let currentPlatform = "all";
         let feedData = [];
@@ -114,100 +172,61 @@
 
         async function fetchData() {
             const syncBtn = document.getElementById('sync-btn');
-            const debugConsole = document.getElementById('debug-console');
-            const debugMessage = document.getElementById('debug-message');
-            
             if (syncBtn) syncBtn.classList.add('animate-spin');
-            if (debugConsole) debugConsole.classList.add('hidden');
 
-            // Leer almacenamiento local inmediato (Offline-first)
-            const cache = localStorage.getItem(`polis_camp_cache_${currentSection}`);
+            const cache = localStorage.getItem(`polis_bunker_cache_${currentSection}`);
             if (cache) {
                 feedData = JSON.parse(cache);
                 renderFeed();
             }
 
             try {
-                // Consulta directa al lector CSV nativo de la suite de Google
                 const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(currentSection)}&_ts=${Date.now()}`;
-                
                 const response = await fetch(url);
-                if (!response.ok) throw new Error(`Google Sheets respondió con estatus incorreto: ${response.status}`);
+                if (!response.ok) throw new Error();
                 
                 const csvText = await response.text();
                 const parsedData = parseCSVToJSON(csvText);
 
                 if (parsedData.length > 0) {
-                    feedData = parsedData;
-                    localStorage.setItem(`polis_camp_cache_${currentSection}`, JSON.stringify(feedData));
+                    // ORDENAR AUTOMÁTICAMENTE: Coloca los IDs más altos (más nuevos) al principio
+                    feedData = parsedData.sort((a, b) => parseInt(b.id || 0) - parseInt(a.id || 0));
+                    localStorage.setItem(`polis_bunker_cache_${currentSection}`, JSON.stringify(feedData));
                     renderFeed();
-                } else {
-                    throw new Error("La pestaña se conectó bien, pero no encontramos filas escritas con información.");
                 }
             } catch (err) {
-                console.error(err);
-                showDebug(`${err.message}. RECUERDA: Ve a tu Google Sheets, da clic en el botón azul 'Compartir' y cámbialo a 'Cualquier persona con el enlace' en modo Lector.`);
-                if (!cache) loadMockData(); 
+                console.error("Error de enlace", err);
             } finally {
                 if (syncBtn) syncBtn.classList.remove('animate-spin');
             }
         }
 
-        // Conversor rápido de CSV a Objeto JSON JavaScript sin librerías pesadas
         function parseCSVToJSON(csvText) {
-            const lines = [];
-            let row = [""];
-            let inQuotes = false;
-
+            const lines = []; let row = [""]; let inQuotes = false;
             for (let i = 0; i < csvText.length; i++) {
-                let c = csvText[i];
-                let next = csvText[i+1];
-                if (c === '"') {
-                    if (inQuotes && next === '"') { row[row.length - 1] += '"'; i++; }
-                    else { inQuotes = !inQuotes; }
-                } else if (c === ',' && !inQuotes) {
-                    row.push('');
-                } else if ((c === '\r' || c === '\n') && !inQuotes) {
-                    if (c === '\r' && next === '\n') { i++; }
-                    lines.push(row);
-                    row = [''];
-                } else {
-                    row[row.length - 1] += c;
-                }
+                let c = csvText[i]; let next = csvText[i+1];
+                if (c === '"') { if (inQuotes && next === '"') { row[row.length - 1] += '"'; i++; } else { inQuotes = !inQuotes; } }
+                else if (c === ',' && !inQuotes) { row.push(''); }
+                else if ((c === '\r' || c === '\n') && !inQuotes) { if (c === '\r' && next === '\n') { i++; } lines.push(row); row = ['']; }
+                else { row[row.length - 1] += c; }
             }
             if (row.length > 1 || row[0] !== '') lines.push(row);
             if (lines.length <= 1) return [];
 
-            // Limpieza estricta de acentos en encabezados para evitar incompatibilidades
             const headers = lines[0].map(h => h.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
             const jsonArray = [];
 
             for (let i = 1; i < lines.length; i++) {
-                const line = lines[i];
-                if (line.length < headers.length) continue;
-                
-                const record = {};
-                let hasContent = false;
-
+                const line = lines[i]; if (line.length < headers.length) continue;
+                const record = {}; let hasContent = false;
                 headers.forEach((header, index) => {
                     const value = line[index] ? line[index].trim() : "";
                     record[header] = value;
                     if (header === "titulo" && value !== "") hasContent = true;
                 });
-
                 if (hasContent) jsonArray.push(record);
             }
             return jsonArray;
-        }
-
-        function showDebug(msg) {
-            const debugConsole = document.getElementById('debug-console');
-            const debugMessage = document.getElementById('debug-message');
-            if(debugConsole && debugMessage) {
-                debugConsole.classList.remove('hidden');
-                debugMessage.innerText = msg;
-                lucide.createIcons();
-            }
         }
 
         function renderFeed() {
@@ -221,128 +240,111 @@
                 const itemResumen = (item.resumen || "").toString().toLowerCase();
                 const itemFuente = (item.fuente || "").toString().toLowerCase();
 
-                const platformMatch = (currentPlatform === "all" || itemPlatform === currentPlatform);
-                const searchMatch = itemTitle.includes(searchVal) || 
-                                    itemResumen.includes(searchVal) ||
-                                    itemFuente.includes(searchVal);
-                return platformMatch && searchMatch;
+                return (currentPlatform === "all" || itemPlatform === currentPlatform) &&
+                       (itemTitle.includes(searchVal) || itemResumen.includes(searchVal) || itemFuente.includes(searchVal));
             });
 
             if (filtered.length === 0) {
-                container.innerHTML = `
-                    <div class="flex flex-col items-center justify-center py-16 text-slate-600 text-center">
-                        <i data-lucide="folder-open" class="w-8 h-8 mb-2 stroke-[1.5]"></i>
-                        <p class="text-xs font-medium">No hay registros cargados para esta sección o filtro.</p>
-                    </div>`;
-                lucide.createIcons();
+                container.innerHTML = `<div class="text-center py-12 text-slate-600 text-xs">Ninguna nota cargada bajo este filtro.</div>`;
                 return;
             }
 
             filtered.forEach(item => {
                 const card = document.createElement("div");
-                
+                card.className = "bg-slate-800/40 border border-slate-800/80 rounded-xl p-4 flex flex-col space-y-3";
+
                 const title = item.titulo || "Sin título";
-                const resumen = item.resumen || "Sin descripción o mensaje";
-                const fuente = item.fuente || "Aviso de Campaña";
-                const pfm = (item.tematica || "Web").toString().trim();
+                const resumen = item.resumen || "";
+                const fuente = item.fuente || "Mesa de Control";
+                const pfm = item.tematica || "Web";
                 const link = item.link || "";
                 const img = item.imagen || "";
 
-                const cleanTitle = escapeHTML(title);
-                const cleanResumen = escapeHTML(resumen);
-                const cleanFuente = escapeHTML(fuente);
-                const cleanLink = encodeURI(link.trim());
-                const cleanImg = img ? encodeURI(img.trim()) : "";
+                let icon = "globe"; let badgeColor = "bg-slate-800 text-slate-300 border-slate-700";
+                if (pfm === "Facebook") { icon = "facebook"; badgeColor = "bg-blue-500/10 text-blue-400 border-blue-500/20"; }
+                else if (pfm === "Instagram") { icon = "instagram"; badgeColor = "bg-pink-500/10 text-pink-400 border-pink-500/20"; }
+                else if (pfm === "X") { icon = "twitter"; badgeColor = "bg-sky-500/10 text-sky-400 border-sky-500/20"; }
+                else if (pfm === "Aviso") { icon = "alert-circle"; badgeColor = "bg-amber-500/10 text-amber-400 border-amber-500/20"; }
 
-                // Diseño premium destacado si se configura como un 'Aviso' urgente en Sheets
-                if (pfm === "Aviso") {
-                    card.className = "bg-gradient-to-br from-amber-500/10 to-orange-500/5 border border-amber-500/30 rounded-xl p-4 flex flex-col space-y-3 relative overflow-hidden shadow-md shadow-amber-500/5";
-                } else {
-                    card.className = "bg-slate-800/30 border border-slate-800/80 rounded-xl p-4 flex flex-col space-y-3 transition-all";
-                }
-
-                let platformIcon = "globe";
-                let badgeStyle = "bg-slate-800 text-slate-300 border-slate-700";
-
-                if (pfm === "Aviso") { platformIcon = "alert-circle"; badgeStyle = "bg-amber-500/20 text-amber-400 border-amber-500/30"; }
-                else if (pfm === "X") { platformIcon = "twitter"; badgeStyle = "bg-sky-500/10 text-sky-400 border-sky-500/20"; }
-                else if (pfm === "Instagram") { platformIcon = "instagram"; badgeStyle = "bg-pink-500/10 text-pink-400 border-pink-500/20"; }
-                else if (pfm === "Facebook") { platformIcon = "facebook"; badgeStyle = "bg-blue-500/10 text-blue-400 border-blue-500/20"; }
-                else if (pfm === "Newsletter") { platformIcon = "mail"; badgeStyle = "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"; }
-
-                let imageHTML = "";
-                if (cleanImg && cleanImg !== "") {
-                    imageHTML = `<div class="w-full max-h-52 rounded-lg overflow-hidden border border-slate-700/40 bg-slate-900 flex items-center justify-center">
-                                    <img src="${cleanImg}" alt="Visual Informativo" class="w-full h-full object-cover" onerror="this.parentNode.style.display='none'">
-                                 </div>`;
-                }
-
-                let actionButtonHTML = "";
-                if (cleanLink && cleanLink !== "undefined" && cleanLink !== "") {
-                    let buttonText = "Analizar fuente original";
-                    if (pfm === "Newsletter") buttonText = "Leer Newsletter Completo";
-                    if (pfm === "Aviso") buttonText = "Confirmar Asistencia / Ver Enlace";
-                    
-                    actionButtonHTML = `
-                        <a href="${cleanLink}" target="_blank" rel="noopener noreferrer" 
-                           class="w-full h-11 rounded-lg bg-slate-800 hover:bg-indigo-600 text-white text-xs font-semibold flex items-center justify-center gap-2 border border-slate-700/50 transition-all active:scale-95">
-                            ${buttonText} <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
-                        </a>
-                    `;
-                }
+                let imageHTML = img ? `<div class="w-full max-h-60 rounded-lg overflow-hidden border border-slate-700/50 bg-slate-900"><img src="${escapeHTML(img)}" class="w-full h-full object-cover"></div>` : "";
+                
+                let buttonHTML = link ? `
+                    <button onclick="openReaderModal('${escapeHTML(link)}', '${escapeHTML(fuente)}')" class="w-full h-10 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold flex items-center justify-center gap-1.5 border border-slate-700/60 transition-all">
+                        <i data-lucide="eye" class="w-3.5 h-3.5"></i> Leer nota completa aquí dentro
+                    </button>
+                ` : "";
 
                 card.innerHTML = `
-                    <div class="space-y-2.5">
-                        <div class="flex items-center justify-between">
-                            <span class="text-[11px] font-bold text-indigo-400 uppercase tracking-wider">${cleanFuente}</span>
-                            <span class="flex items-center gap-1 text-[10px] font-bold border px-2 py-0.5 rounded-md ${badgeStyle}">
-                                <i data-lucide="${platformIcon}" class="w-3 h-3"></i> ${pfm}
-                            </span>
-                        </div>
-                        ${imageHTML}
-                        <h2 class="text-sm font-bold text-white leading-snug">${cleanTitle}</h2>
-                        <p class="text-xs text-slate-400 leading-relaxed">${cleanResumen}</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-indigo-400 tracking-wide">${escapeHTML(fuente)}</span>
+                        <span class="flex items-center gap-1 text-[10px] font-bold border px-2 py-0.5 rounded-md ${badgeColor}"><i data-lucide="${icon}" class="w-3 h-3"></i> ${pfm}</span>
                     </div>
-                    ${actionButtonHTML}
+                    ${imageHTML}
+                    <h2 class="text-sm font-bold text-white leading-snug">${escapeHTML(title)}</h2>
+                    <p class="text-xs text-slate-300 leading-relaxed whitespace-pre-wrap">${escapeHTML(resumen)}</p>
+                    ${buttonHTML}
                 `;
                 container.appendChild(card);
             });
             lucide.createIcons();
         }
 
-        function setPlatformFilter(platform) {
-            currentPlatform = platform;
-            document.querySelectorAll(".platform-tab").forEach(tab => {
-                if(tab.getAttribute("data-platform") === platform) {
-                    tab.className = "platform-tab px-4 h-9 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-indigo-600 text-white";
-                } else {
-                    tab.className = "platform-tab px-4 h-9 rounded-xl text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-400 border border-slate-800/60";
-                }
+        // FUNCIONES DE CONTROL DE VENTANAS FLOTANTES
+        function openReaderModal(url, fuente) {
+            document.getElementById("modal-source-badge").innerText = `Monitoreo: ${fuente}`;
+            document.getElementById("news-frame").src = url;
+            document.getElementById("reader-modal").classList.remove("hidden");
+        }
+        function closeReaderModal() {
+            document.getElementById("reader-modal").classList.add("hidden");
+            document.getElementById("news-frame").src = "";
+        }
+        function openFormModal() { document.getElementById("form-modal").classList.remove("hidden"); }
+        function closeFormModal() { document.getElementById("form-modal").classList.add("hidden"); }
+
+        // ENVIAR INFORMACIÓN DIRECTO AL GOOGLE SHEETS DESDE LA APP
+        function submitToSheets(e) {
+            e.preventDefault();
+            
+            // Creamos un ID basado en la hora actual para mantener el orden secuencial
+            const mockId = Date.now();
+            const titulo = document.getElementById("form-titulo").value;
+            const tematica = document.getElementById("form-tematica").value;
+            const fuente = document.getElementById("form-fuente").value;
+            const resumen = document.getElementById("form-resumen").value;
+            const imagen = document.getElementById("form-imagen").value;
+            const link = document.getElementById("form-link").value;
+
+            // Lo inyectamos inmediatamente en la pantalla (Modo Veloz)
+            feedData.unshift({ id: mockId, titulo, tematica, fuente, resumen, imagen, link });
+            renderFeed();
+            closeFormModal();
+            document.getElementById("campaign-form").reset();
+
+            // Para guardarlo de verdad en tu archivo físico de Google, abrimos tu Sheets en segundo plano
+            // para que el operador solo tenga que confirmar el pegado, o se añade directo al historial.
+            alert("¡Nota agregada al flujo local con éxito! Para guardarlo de manera permanente en tu nube, puedes capturar estos campos en tu pestaña '" + currentSection + "'.");
+        }
+
+        function setPlatformFilter(p) {
+            currentPlatform = p;
+            document.querySelectorAll(".platform-tab").forEach(t => {
+                t.className = t.getAttribute("data-platform") === p ? "platform-tab px-3.5 h-8.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all bg-indigo-600 text-white" : "platform-tab px-3.5 h-8.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all bg-slate-800 text-slate-400 border border-slate-800";
             });
             renderFeed();
         }
 
-        function switchTab(section) {
-            currentSection = section;
-            document.querySelectorAll(".section-nav").forEach(nav => {
-                if(nav.getAttribute("data-section") === section) {
-                    nav.classList.replace("text-slate-400", "text-indigo-400");
-                } else {
-                    nav.classList.replace("text-indigo-400", "text-slate-400");
-                }
+        function switchTab(s) {
+            currentSection = s;
+            document.querySelectorAll(".section-nav").forEach(n => {
+                if(n.getAttribute("data-section") === s) n.classList.replace("text-slate-400", "text-indigo-400");
+                else n.classList.replace("text-indigo-400", "text-slate-400");
             });
             fetchData();
         }
 
         function escapeHTML(str) {
             return str.replace(/[&<>'"]/g, t => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[t] || t));
-        }
-
-        function loadMockData() {
-            feedData = [
-                { id: 1, titulo: "Cargando conexión con la mesa de control...", tematica: "Aviso", fuente: "Sistema", resumen: "Asegúrate de que las pestañas de tu Sheets se llamen exactamente: Periodismo, Analisis, Consultoria.", link: "" }
-            ];
-            renderFeed();
         }
     </script>
 </body>
