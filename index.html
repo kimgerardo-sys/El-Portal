@@ -81,7 +81,7 @@
             </div>
             
             <div class="bg-slate-900/50 border border-slate-700/50 rounded-xl p-4 mb-6">
-                <p id="motd-text" class="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap"></p>
+                <p id="motd-text" class="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap">Aún no hay anuncios para hoy.</p>
                 <a id="motd-link" href="#" target="_blank" class="hidden mt-3 text-indigo-400 hover:text-indigo-300 text-xs font-bold flex items-center gap-1">
                     <i data-lucide="link" class="w-3.5 h-3.5"></i> Abrir Enlace Adjunto
                 </a>
@@ -107,7 +107,7 @@
             </div>
             
             <div class="flex items-center gap-1.5">
-                <!-- BOTÓN SOS REUBICADO -->
+                <!-- BOTÓN SOS -->
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSdXg10XVS7HIvLWc1Dg3CV_89ibuD38Ft4eR4gTwKKgRCPnjA/viewform?usp=header" target="_blank" 
                    class="w-9 h-9 rounded-xl bg-gradient-to-tr from-rose-600 to-rose-500 flex items-center justify-center active:scale-95 transition-transform border border-rose-400 shadow-lg shadow-rose-600/40 sos-pulse" title="Reportar Incidencia">
                     <i data-lucide="siren" class="w-4 h-4 text-white"></i>
@@ -118,7 +118,7 @@
                     <i data-lucide="megaphone" class="w-4 h-4 text-indigo-400"></i>
                 </button>
                 
-                <!-- PUNTOS COMPACTOS -->
+                <!-- PUNTOS -->
                 <div class="bg-slate-800/80 border border-slate-700/50 rounded-xl px-2 h-9 flex items-center gap-1.5 shadow-inner">
                     <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400 fill-amber-400"></i>
                     <p id="task-counter" class="text-xs font-black text-white leading-none">0</p>
@@ -227,11 +227,25 @@
 
         let currentSection = "Periodismo"; 
         let feedData = [];
+        let currentMotdId = null;
 
         document.addEventListener("DOMContentLoaded", () => {
             setupPWAComponents();
             lucide.createIcons();
             
+            // Asignar el botón del megáfono de forma segura para que siempre abra el modal
+            document.getElementById('btn-header-mensaje').onclick = () => {
+                document.getElementById('motd-modal').classList.remove('hidden');
+            };
+
+            // Asignar el botón enterado para que cierre y guarde lectura
+            document.getElementById('motd-btn-enterado').onclick = () => {
+                document.getElementById('motd-modal').classList.add('hidden');
+                if (currentMotdId) {
+                    localStorage.setItem('polis_last_message_read', currentMotdId);
+                }
+            };
+
             const session = localStorage.getItem("polis_session");
             if (session) {
                 document.getElementById("login-screen").classList.add("hidden");
@@ -256,8 +270,9 @@
         }
 
         async function attemptLogin() {
-            const name = document.getElementById("login-name").value;
-            const phone = document.getElementById("login-phone").value;
+            // El .trim() arregla problemas de espacios extra que meten los celulares
+            const name = document.getElementById("login-name").value.trim();
+            const phone = document.getElementById("login-phone").value.trim();
             const errorMsg = document.getElementById("login-error");
             const btn = document.getElementById("login-btn");
 
@@ -267,7 +282,7 @@
                 return;
             }
 
-            if (API_URL.includes("https://script.google.com/macros/s/AKfycbx3ImLmqnL20__4UGl7aEak-WmDAgi0k05mrKZDDxQdYh0AoFIEt57hRJ1VKzSgVaaWcA/exec")) {
+            if (API_URL.includes("LA_URL_AQUI")) {
                 errorMsg.innerText = "Error: Falta configurar la URL de la API en tu código.";
                 errorMsg.classList.remove("hidden");
                 return;
@@ -315,16 +330,29 @@
         }
 
         async function fetchMensajeDelDia() {
-            if (API_URL.includes("https://script.google.com/macros/s/AKfycbx3ImLmqnL20__4UGl7aEak-WmDAgi0k05mrKZDDxQdYh0AoFIEt57hRJ1VKzSgVaaWcA/exec")) return;
+            if (API_URL.includes("LA_URL_AQUI")) return;
             try {
                 const url = `${API_URL}?action=mensaje`;
                 const response = await fetch(url);
                 if (!response.ok) return;
                 
                 const data = await response.json();
-                if (data.error || !data.id) return;
                 
+                if (data.error) {
+                    console.error("Error del backend:", data.error);
+                    return;
+                }
+
+                // Si no hay mensaje, desactivamos la alerta automática pero el modal dirá "Aún no hay anuncios"
+                if (!data.mensaje || data.mensaje.trim() === "Aún no hay mensaje del día.") {
+                    document.getElementById('btn-header-mensaje').style.opacity = "0.5";
+                    document.getElementById('btn-header-mensaje').onclick = () => showToast("No hay mensaje del día.");
+                    return;
+                }
+                
+                document.getElementById('btn-header-mensaje').style.opacity = "1";
                 document.getElementById('motd-text').innerText = data.mensaje;
+                
                 if(data.link) {
                     document.getElementById('motd-link').href = data.link;
                     document.getElementById('motd-link').classList.remove('hidden');
@@ -332,23 +360,14 @@
                     document.getElementById('motd-link').classList.add('hidden');
                 }
                 
+                // Si el ID de Google Sheets viene vacío, creamos un hash basado en el mensaje
+                currentMotdId = data.id || btoa(encodeURIComponent(data.mensaje)).slice(0, 15);
                 const lastRead = localStorage.getItem('polis_last_message_read');
-                const btnEnterado = document.getElementById('motd-btn-enterado');
                 
-                if (lastRead !== data.id) {
+                // Mostrar solo si no se ha leído
+                if (lastRead !== currentMotdId) {
                     document.getElementById('motd-modal').classList.remove('hidden');
-                    btnEnterado.onclick = () => {
-                        localStorage.setItem('polis_last_message_read', data.id);
-                        document.getElementById('motd-modal').classList.add('hidden');
-                    };
                 }
-                
-                document.getElementById('btn-header-mensaje').onclick = () => {
-                    document.getElementById('motd-modal').classList.remove('hidden');
-                    btnEnterado.onclick = () => {
-                        document.getElementById('motd-modal').classList.add('hidden');
-                    };
-                };
                 
             } catch(err) {
                 console.log("Error cargando mensaje:", err);
@@ -588,7 +607,7 @@
 
             if ('serviceWorker' in navigator) {
                 const swCode = `
-                    const CACHE_NAME = 'polis-v3';
+                    const CACHE_NAME = 'polis-v4';
                     self.addEventListener('install', e => self.skipWaiting());
                     self.addEventListener('activate', e => e.waitUntil(clients.claim()));
                     self.addEventListener('fetch', e => {
