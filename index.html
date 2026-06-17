@@ -215,7 +215,7 @@
     <!-- SCRIPT PRINCIPAL -->
     <script>
         // 🚨 PEGA AQUÍ TU URL DEL GOOGLE APPS SCRIPT 🚨
-        const API_URL = "LA_URL_AQUI_POR_FAVOR"; 
+        const API_URL = "https://script.google.com/macros/s/AKfycbx3ImLmqnL20__4UGl7aEak-WmDAgi0k05mrKZDDxQdYh0AoFIEt57hRJ1VKzSgVaaWcA/exec"; 
 
         const SECTION_INFOS = {
             "Periodismo": { icon: "📰", text: "<span class='font-bold text-white'>¡Entérate y difunde!</span> Aquí publicamos las noticias clave. Léelas, cópialas y compártelas en tus grupos para mantener a todos informados." },
@@ -267,7 +267,7 @@
                 return;
             }
 
-            if (API_URL.includes("LA_URL_AQUI")) {
+            if (API_URL.includes("https://script.google.com/macros/s/AKfycbx3ImLmqnL20__4UGl7aEak-WmDAgi0k05mrKZDDxQdYh0AoFIEt57hRJ1VKzSgVaaWcA/exec")) {
                 errorMsg.innerText = "Error: Falta configurar la URL de la API en tu código.";
                 errorMsg.classList.remove("hidden");
                 return;
