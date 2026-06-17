@@ -5,31 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>AgoraPolis Búnker</title>
     
-    <!-- Meta Tags para comportamiento de App Nativa (iOS & Android) -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0f172a">
     
-    <!-- Enlace del Manifiesto PWA dinámico (Data URI) -->
     <link rel="manifest" id="pwa-manifest">
     
-    <!-- CDNs Limpios e independientes -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            -webkit-tap-highlight-color: transparent; 
-            user-select: none;
-        }
-        .glass-header { 
-            background: rgba(15, 23, 42, 0.85); 
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px); 
-        }
-        /* Ocultar barra de scroll visualmente */
+        body { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; user-select: none; }
+        .glass-header { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
@@ -49,7 +37,6 @@
                 </div>
             </div>
             
-            <!-- CONTADOR LOCAL DE ACCIONES CUMPLIDAS -->
             <div class="flex items-center gap-2">
                 <div class="bg-slate-800/80 border border-slate-700/50 rounded-xl px-3 h-10 flex items-center gap-2 shadow-inner">
                     <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
@@ -72,8 +59,6 @@
 
     <!-- CONTENEDOR DE CONTENIDO -->
     <main class="flex-1 max-w-xl w-full mx-auto px-4 pt-24 space-y-4">
-        
-        <!-- BARRA DE BÚSQUEDA INTEGRADA -->
         <div id="search-container" class="relative">
             <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                 <i data-lucide="search" class="w-4 h-4 text-slate-500"></i>
@@ -82,16 +67,14 @@
                 class="w-full h-11 pl-10 pr-4 bg-slate-800/40 border border-slate-800 rounded-xl text-sm placeholder-slate-500 text-white focus:outline-none focus:border-indigo-500 transition-all">
         </div>
 
-        <!-- RECIPIENTE DINÁMICO DE TARJETAS -->
         <div id="feed-container" class="space-y-4">
-            <!-- Esqueleto de Carga Base -->
             <div class="animate-pulse space-y-4">
                 <div class="h-32 bg-slate-800/40 rounded-2xl border border-slate-800"></div>
             </div>
         </div>
     </main>
 
-    <!-- NAVEGACIÓN ESTILO APP -->
+    <!-- NAVEGACIÓN -->
     <nav class="fixed bottom-0 left-0 right-0 glass-header border-t border-slate-800/60 z-40 px-2 shadow-2xl">
         <div class="max-w-xl mx-auto flex justify-around items-center h-16">
             <button onclick="switchTab('Periodismo')" class="section-nav flex flex-col items-center justify-center flex-1 h-full text-indigo-400" data-section="Periodismo">
@@ -117,11 +100,11 @@
         </div>
     </nav>
 
-    <!-- VISOR IN-APP MODAL -->
+    <!-- VISOR IN-APP -->
     <div id="reader-modal" class="hidden fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex flex-col justify-end sm:justify-center p-0">
         <div class="bg-slate-900 w-full max-w-xl mx-auto h-[92vh] rounded-t-3xl border-t border-slate-800 flex flex-col overflow-hidden shadow-2xl">
             <div class="px-4 py-3 bg-slate-800/60 border-b border-slate-800 flex items-center justify-between">
-                <span id="modal-source-badge" class="text-[10px] font-black text-indigo-400 uppercase tracking-wider">Visualizador Seguro</span>
+                <span id="modal-source-badge" class="text-[10px] font-black text-indigo-400 uppercase tracking-wider">Visualizador</span>
                 <button onclick="closeReaderModal()" class="w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:text-white active:scale-90 transition-all">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
@@ -132,30 +115,14 @@
         </div>
     </div>
 
-    <!-- CODE INFRASTRUCTURE & BUSINESS LOGIC -->
+    <!-- SCRIPT PRINCIPAL -->
     <script>
-        // ID Base del Google Sheets
-        const SPREADSHEET_ID = "1u1Hey3bmvuU_MrO4NEQItXHquXFwRQjsxO7vsucEbh8"; 
-        
-        // 🚨 INSTRUCCIONES IMPORTANTES PARA LOS GIDs 🚨
-        // Para encontrar el GID de cada pestaña:
-        // 1. Abre tu documento de Google Sheets en la PC.
-        // 2. Ve a la pestaña correspondiente (ej. "Tendencias").
-        // 3. Mira la URL en tu navegador, al final verás algo como "#gid=123456789".
-        // 4. Copia SOLO los números después del "=" y sustituye los textos de abajo.
-        // Nota: La primera pestaña "Periodismo" suele tener el gid "0". Las demás tendrán un número distinto.
-        const SHEET_GIDS = {
-            "Periodismo": "0",          
-            "Tendencias": "1617488090",  // Ej: "19385719"
-            "Estrategia": "1312704074",  // Ej: "93718461"
-            "Materiales": "1076184656",  // Ej: "38195821"
-            "Mapas": "1592288157"        // Ej: "91834712"
-        };
+        // 🚨 PEGA AQUÍ LA URL QUE TE DIO GOOGLE APPS SCRIPT AL IMPLEMENTAR 🚨
+        const API_URL = "https://script.google.com/macros/s/AKfycbx3ImLmqnL20__4UGl7aEak-WmDAgi0k05mrKZDDxQdYh0AoFIEt57hRJ1VKzSgVaaWcA/exec"; 
 
         let currentSection = "Periodismo"; 
         let feedData = [];
 
-        // Inicialización de componentes gráficos y carga
         document.addEventListener("DOMContentLoaded", () => {
             setupPWAComponents();
             lucide.createIcons();
@@ -189,70 +156,42 @@
             const container = document.getElementById("feed-container");
             container.innerHTML = `<div class="text-center py-16 text-slate-500 text-xs animate-pulse">Sincronizando canal: ${currentSection}...</div>`;
 
-            // Obtenemos el GID, en caso de fallar o no estar reemplazado usamos un string no válido
-            const gid = SHEET_GIDS[currentSection] || "0";
-
-            // Si el usuario olvidó reemplazar un GID y dice "REEMPLAZAR_...", avisamos inmediatamente en pantalla.
-            if (gid.startsWith("REEMPLAZAR_")) {
+            if (API_URL.startsWith("https://script.google.com/macros/s/AKfycbx3ImLmqnL20__4UGl7aEak-WmDAgi0k05mrKZDDxQdYh0AoFIEt57hRJ1VKzSgVaaWcA/exec")) {
                 container.innerHTML = `
                     <div class="text-center py-12 px-4 border border-amber-500/20 bg-amber-500/5 rounded-2xl">
-                        <p class="text-amber-400 text-xs font-semibold">Falta configurar el GID de "${currentSection}"</p>
-                        <p class="text-[10px] text-slate-500 mt-1">Sustituye "REEMPLAZAR_CON_TU_GID_AQUI" con el número real que aparece en la URL del Google Sheets para esta pestaña.</p>
+                        <p class="text-amber-400 text-xs font-semibold">Falta el enlace a la API</p>
+                        <p class="text-[10px] text-slate-500 mt-1">Recuerda pegar el enlace de tu Google Apps Script en la variable API_URL en el código.</p>
                     </div>`;
                 if (syncBtn) syncBtn.classList.remove('animate-spin');
                 return;
             }
 
             try {
-                // Fetch directo con prevención ESTRICTA de caché
-                // Se agrega cache: 'no-store' para forzar la petición al servidor saltando la caché del navegador.
-                const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&gid=${gid}&_ts=${Date.now()}`;
-                const response = await fetch(url, { cache: "no-store", pragma: "no-cache" });
+                // Hacemos la petición a nuestra nueva API enviando la sección deseada
+                // Ya no peleamos con CSVs ni gids, le pasamos directamente el nombre de la pestaña.
+                const url = `${API_URL}?section=${encodeURIComponent(currentSection)}`;
+                const response = await fetch(url);
                 
-                if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+                if (!response.ok) throw new Error(`Error de conexión HTTP: ${response.status}`);
                 
-                const csvText = await response.text();
-                feedData = parseCSVToJSON(csvText).sort((a, b) => parseInt(b.id || 0) - parseInt(a.id || 0));
+                // La API ya devuelve el JSON armadito
+                const result = await response.json();
+                
+                if (result.error) {
+                    throw new Error(result.error);
+                }
+                
+                feedData = result.sort((a, b) => parseInt(b.id || 0) - parseInt(a.id || 0));
                 renderFeed();
             } catch (err) {
                 container.innerHTML = `
                     <div class="text-center py-12 px-4 border border-rose-500/20 bg-rose-500/5 rounded-2xl">
-                        <p class="text-rose-400 text-xs font-semibold">Error de enlace con la pestaña "${currentSection}"</p>
-                        <p class="text-[10px] text-slate-500 mt-1">Verifica el ID, los permisos compartidos y que las columnas sean id, fuente, tematica, titulo, resumen, link.</p>
-                        <p class="text-[9px] text-slate-600 mt-2">${err.message}</p>
+                        <p class="text-rose-400 text-xs font-semibold">Error al obtener "${currentSection}"</p>
+                        <p class="text-[10px] text-slate-500 mt-2">${err.message}</p>
                     </div>`;
             } finally {
                 if (syncBtn) syncBtn.classList.remove('animate-spin');
             }
-        }
-
-        function parseCSVToJSON(csvText) {
-            const lines = []; let row = [""]; let inQuotes = false;
-            for (let i = 0; i < csvText.length; i++) {
-                let c = csvText[i]; let next = csvText[i+1];
-                if (c === '"') { if (inQuotes && next === '"') { row[row.length - 1] += '"'; i++; } else { inQuotes = !inQuotes; } }
-                else if (c === ',' && !inQuotes) { row.push(''); }
-                else if ((c === '\r' || c === '\n') && !inQuotes) { if (c === '\r' && next === '\n') { i++; } lines.push(row); row = ['']; }
-                else { row[row.length - 1] += c; }
-            }
-            if (row.length > 1 || row[0] !== '') lines.push(row);
-            if (lines.length <= 1) return [];
-
-            // Sanitización de cabeceras seguras
-            const headers = lines[0].map(h => h.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
-            const jsonArray = [];
-
-            for (let i = 1; i < lines.length; i++) {
-                const line = lines[i]; if (line.length < headers.length) continue;
-                const record = {}; let valid = false;
-                headers.forEach((header, index) => {
-                    const value = line[index] ? line[index].trim() : "";
-                    record[header] = value;
-                    if (header === "titulo" && value !== "") valid = true;
-                });
-                if (valid) jsonArray.push(record);
-            }
-            return jsonArray;
         }
 
         function renderFeed() {
@@ -268,7 +207,7 @@
             });
 
             if (filtered.length === 0) {
-                container.innerHTML = `<div class="text-center py-16 text-slate-600 text-xs font-medium">No se encontraron registros activos en esta división.</div>`;
+                container.innerHTML = `<div class="text-center py-16 text-slate-600 text-xs font-medium">No se encontraron registros en esta división.</div>`;
                 return;
             }
 
@@ -292,7 +231,6 @@
                 let mediaHTML = img ? `<div class="w-full max-h-48 rounded-xl overflow-hidden border border-slate-700/40 bg-slate-900"><img src="${escapeHTML(img)}" class="w-full h-full object-cover" loading="lazy"></div>` : "";
                 let actionArea = "";
 
-                // Renderizado condicional inteligente por sección operativa
                 if (currentSection === "Periodismo") {
                     actionArea = `
                         <div class="grid grid-cols-2 gap-2 pt-1">
@@ -408,7 +346,6 @@
             return str.replace(/[&<>'"]/g, t => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[t] || t));
         }
 
-        // CONTROL AUTOMÁTICO DE ARCHIVOS COMPLEMENTARIOS PWA (Manifest & Service Worker Inline via Data URI)
         function setupPWAComponents() {
             const manifestObj = {
                 "name": "AgoraPolis App",
